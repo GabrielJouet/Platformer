@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 6985577916675476883}
   - component: {fileID: 1753265719581464388}
   - component: {fileID: -7229971574697101506}
-  - component: {fileID: 6718632802528511353}
+  - component: {fileID: 4052202263352508009}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -271,9 +271,9 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &6718632802528511353
+--- !u!114 &4052202263352508009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,17 +282,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3527341082708660726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2bdc5a186e396743abda50c660af0eb, type: 3}
+  m_Script: {fileID: 11500000, guid: dec292d624ee9af4eb0ad584e78d6c47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.2
   _fieldOfSight: 3
   _eyePosition: {fileID: 3455286428614529008}
-  _isFlying: 0
+  _minDistanceWithPlayer: 0.75
+  _speed: 0.8
   _voidCheckers:
   - {fileID: 518778504304258119}
   - {fileID: 866594261532609270}
-  _minDistanceWithPlayer: 1
 --- !u!1 &8617666079577147905
 GameObject:
   m_ObjectHideFlags: 0
