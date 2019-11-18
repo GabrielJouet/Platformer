@@ -167,21 +167,4 @@ public class Enemy : Entity
     }
 
 
-    protected void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-        {
-            _isGrounded = true;
-        }
-    }
-
-
-
-    protected void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Wall")
-        {
-            _isGrounded = false;
-        }
-    }
 }

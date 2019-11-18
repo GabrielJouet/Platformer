@@ -4,23 +4,20 @@ public class Checker : MonoBehaviour
 {
     private bool _isTouchingWall;
 
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            _isTouchingWall = true;
-        }
+        _isTouchingWall = collision.gameObject.CompareTag("Wall");
     }
 
 
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            _isTouchingWall = false;
-        }
+        _isTouchingWall = !collision.gameObject.CompareTag("Wall");
     }
+
 
 
     public bool GetIsTouchingWall()
