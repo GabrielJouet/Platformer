@@ -5,34 +5,34 @@ using UnityEngine;
 public class Enemy : Entity
 {
     [SerializeField]
-    private float _fieldOfSight;
+    protected float _fieldOfSight;
 
 
     [SerializeField]
-    private Transform _eyePosition;
+    protected Transform _eyePosition;
 
     [SerializeField]
-    private bool _isFlying;
-
-
-    [SerializeField]
-    private List<Checkers> _voidCheckers = new List<Checkers>();
+    protected bool _isFlying;
 
 
     [SerializeField]
-    private float _minDistanceWithPlayer;
+    protected List<Checker> _voidCheckers = new List<Checker>();
+
+
+    [SerializeField]
+    protected float _minDistanceWithPlayer;
 
 
 
 
-    private GameObject _chasingPlayer;
+    protected GameObject _chasingPlayer;
 
-    private bool _isChasingPlayer;
+    protected bool _isChasingPlayer;
 
 
-    private bool _isAttackingPlayer;
+    protected bool _isAttackingPlayer;
 
-    private bool _canMoveRight, _canMoveLeft;
+    protected bool _canMoveRight, _canMoveLeft;
 
 
 
@@ -66,7 +66,7 @@ public class Enemy : Entity
 
 
 
-    private IEnumerator WatchOutPlayer()
+    protected IEnumerator WatchOutPlayer()
     {
         while (true)
         {
@@ -93,7 +93,7 @@ public class Enemy : Entity
     }
 
 
-    private void CheckPosition()
+    protected void CheckPosition()
     {
         if(!_isFlying)
         {
@@ -118,7 +118,7 @@ public class Enemy : Entity
     }
 
 
-    private void Move(Vector3 newPosition)
+    protected void Move(Vector3 newPosition)
     {
         if(transform.position.x - newPosition.x < 0f)
         {
@@ -137,7 +137,7 @@ public class Enemy : Entity
     }
 
 
-    private Vector2 FindRetreatPosition()
+    protected Vector2 FindRetreatPosition()
     {
         float newYPosition = transform.position.y;
         float newXPosition;
@@ -167,7 +167,7 @@ public class Enemy : Entity
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
@@ -177,7 +177,7 @@ public class Enemy : Entity
 
 
 
-    private void OnCollisionExit2D(Collision2D collision)
+    protected void OnCollisionExit2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Wall")
         {
