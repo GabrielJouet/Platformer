@@ -149,6 +149,9 @@ MonoBehaviour:
   _minDistanceWithPlayer: 0.8
   _speed: 0.8
   _voidCheckers: []
+  _currentProjectile: {fileID: 7381632820750499058, guid: 2d6d1525d041bfa4b96824f78a3cfe07,
+    type: 3}
+  _timeBetweenShots: 1
 --- !u!1001 &5917642127190617207
 PrefabInstance:
   m_ObjectHideFlags: 0

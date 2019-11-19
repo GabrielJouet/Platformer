@@ -1,7 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class FlyingSoldier : FlyingEnemy
 {
+    [SerializeField]
+    private Projectile _currentProjectile;
+
+
+    [SerializeField]
+    private float _timeBetweenShots;
+
+
+    private ProjectilePool _projectilePool;
+
+
+
     private void Start()
     {
         //We set max speed
@@ -10,6 +23,8 @@ public class FlyingSoldier : FlyingEnemy
         _rigidBody2D = GetComponent<Rigidbody2D>();
 
         _rigidBody2D.gravityScale = 0f;
+
+        _projectilePool = FindObjectOfType<ProjectilePool>();
 
         //We launch coroutine for watching player
         StartCoroutine(WatchOutPlayer());
@@ -42,11 +57,27 @@ public class FlyingSoldier : FlyingEnemy
                 //The enemy can attack the player (close combat only TO CHANGE)
                 _isAttackingPlayer = true;
 
+                StartCoroutine(ShootPlayer());
+
                 Vector2 retreatPosition = FindRetreatPosition();
 
                 //And it will moves backward
                 Move(retreatPosition.x, retreatPosition.y);
             }
+        }
+    }
+
+
+    private IEnumerator ShootPlayer()
+    {
+        while(true)
+        {
+            Projectile buffer = _projectilePool.UseProjectile(_currentProjectile);
+            buffer.Restart();
+
+            buffer.transform.position = transform.position;
+
+            yield return new WaitForSecondsRealtime(_timeBetweenShots);
         }
     }
 }
