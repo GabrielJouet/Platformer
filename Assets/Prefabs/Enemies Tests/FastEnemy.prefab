@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7229971574697101506}
   - component: {fileID: 4052202263352508009}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: FastEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   _fieldOfSight: 3
   _eyePosition: {fileID: 3455286428614529008}
   _minDistanceWithPlayer: 0.75
-  _speed: 0.8
+  _speed: 2
   _voidCheckers:
   - {fileID: 4856516682843968864}
   - {fileID: 4904630934861609710}
