@@ -24,7 +24,7 @@ public class WalkingSoldier : WalkingEnemy
 
 
             //If the enemy is too far enough from the player
-            if (distanceWithPlayer > _minDistanceWithPlayer + 0.01f)
+            if (distanceWithPlayer > _minDistanceWithPlayer + _speed * Time.fixedDeltaTime)
             {
                 //The enemy speeds up
                 _speed = _speedMax * 2f;
@@ -33,7 +33,7 @@ public class WalkingSoldier : WalkingEnemy
                 Move(_chasingPlayer.transform.position.x);
             }
             //If the enemy is too close 
-            else if (distanceWithPlayer <= _minDistanceWithPlayer - 0.01f)
+            else if (distanceWithPlayer <= _minDistanceWithPlayer - _speed * Time.fixedDeltaTime)
             {
                 //The enemy speed is reset
                 _speed = _speedMax;

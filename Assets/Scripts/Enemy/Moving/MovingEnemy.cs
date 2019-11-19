@@ -33,7 +33,7 @@ public class MovingEnemy : Enemy
             if (_canMoveLeft)
             {
                 //We move left at a defined speed
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, transform.position.y), _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, transform.position.y), _speed * Time.fixedDeltaTime);
             }
         }
         //Else if the new position is on the right
@@ -43,7 +43,7 @@ public class MovingEnemy : Enemy
             if (_canMoveRight)
             {
                 //We move left at a defined speed
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, transform.position.y), _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, transform.position.y), _speed * Time.fixedDeltaTime);
             }
         }
     }
@@ -57,13 +57,13 @@ public class MovingEnemy : Enemy
         if (transform.position.x - xPosition < 0f)
         {
             //We move left at a defined speed
-            transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.fixedDeltaTime);
         }
         //Else if the new position is on the right
         else
         {
             //We move left at a defined speed
-            transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.fixedDeltaTime);
         }
     }
 }
