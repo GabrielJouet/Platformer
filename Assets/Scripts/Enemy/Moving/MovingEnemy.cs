@@ -21,17 +21,17 @@ public class MovingEnemy : Enemy
 
 
 
-    //Method used to move the enemy at a given position
-    protected void Move(Vector3 newPosition)
+    //Method used to move the enemy at a given position (if one float is given)
+    protected void Move(float xPosition)
     {
         //If the new position is on the left
-        if (transform.position.x - newPosition.x < 0f)
+        if (transform.position.x - xPosition < 0f)
         {
             //And we can move left
             if (_canMoveLeft)
             {
                 //We move left at a defined speed
-                transform.position = Vector3.MoveTowards(transform.position, newPosition, _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, transform.position.y), _speed * Time.deltaTime);
             }
         }
         //Else if the new position is on the right
@@ -41,7 +41,34 @@ public class MovingEnemy : Enemy
             if (_canMoveRight)
             {
                 //We move left at a defined speed
-                transform.position = Vector3.MoveTowards(transform.position, newPosition, _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, transform.position.y), _speed * Time.deltaTime);
+            }
+        }
+    }
+
+
+
+    //Method used to move the enemy at a given position (if two float are given)
+    protected void Move(float xPosition, float yPosition)
+    {
+        //If the new position is on the left
+        if (transform.position.x - xPosition < 0f)
+        {
+            //And we can move left
+            if (_canMoveLeft)
+            {
+                //We move left at a defined speed
+                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
+            }
+        }
+        //Else if the new position is on the right
+        else
+        {
+            //And we can move right
+            if (_canMoveRight)
+            {
+                //We move left at a defined speed
+                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
             }
         }
     }

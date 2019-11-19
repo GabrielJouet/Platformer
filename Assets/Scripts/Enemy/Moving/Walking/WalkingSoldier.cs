@@ -20,18 +20,20 @@ public class WalkingSoldier : WalkingEnemy
             //We check the enemy's position
             CheckPosition();
 
+            float distanceWithPlayer = Mathf.Sqrt(Mathf.Pow(_chasingPlayer.transform.position.x - transform.position.x, 2));
+
 
             //If the enemy is too far enough from the player
-            if (Mathf.Sqrt((_chasingPlayer.transform.position - transform.position).sqrMagnitude) > _minDistanceWithPlayer + 0.01f)
+            if (distanceWithPlayer > _minDistanceWithPlayer + 0.01f)
             {
                 //The enemy speeds up
                 _speed = _speedMax * 2f;
 
                 //And it moves
-                Move(_chasingPlayer.transform.position);
+                Move(_chasingPlayer.transform.position.x);
             }
             //If the enemy is too close 
-            else if (Mathf.Sqrt((_chasingPlayer.transform.position - transform.position).sqrMagnitude) <= _minDistanceWithPlayer - 0.01f)
+            else if (distanceWithPlayer <= _minDistanceWithPlayer - 0.01f)
             {
                 //The enemy speed is reset
                 _speed = _speedMax;
@@ -40,7 +42,7 @@ public class WalkingSoldier : WalkingEnemy
                 _isAttackingPlayer = true;
 
                 //And it will moves backward
-                Move(FindRetreatPosition());
+                Move(FindRetreatPosition().x);
             }
         }
     }
