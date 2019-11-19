@@ -44,8 +44,10 @@ public class Enemy : Entity
                 //If the distance with the player is less than field of sight
                 if (Mathf.Sqrt((buffer.transform.position - transform.position).sqrMagnitude) < _fieldOfSight)
                 {
+                    int layerMasks = LayerMask.GetMask("Wall");
+
                     //If the enemy can directly looks forward the player
-                    if (Physics2D.Linecast(_eyePosition.position, buffer.transform.position).collider == buffer.GetComponent<CircleCollider2D>())
+                    if (Physics2D.Linecast(_eyePosition.position, buffer.transform.position, layerMasks).collider == buffer.GetComponent<CircleCollider2D>())
                     {
                         //The enemy chases it down
                         _isChasingPlayer = true;
