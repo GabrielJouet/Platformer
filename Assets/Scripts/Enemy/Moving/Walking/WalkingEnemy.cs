@@ -3,7 +3,7 @@
 public class WalkingEnemy : MovingEnemy
 {
     //Method used to check actual platform (if we are on the edge)
-    protected void CheckPosition()
+    protected void CheckGroundedPosition()
     {
         //If the right checker still collide
         if (_voidCheckers[0].GetIsTouchingWall())

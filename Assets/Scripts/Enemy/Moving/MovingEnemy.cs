@@ -19,6 +19,8 @@ public class MovingEnemy : Enemy
     //Did the enemy can move right or left?
     protected bool _canMoveRight, _canMoveLeft;
 
+    protected Rigidbody2D _rigidBody2D;
+
 
 
     //Method used to move the enemy at a given position (if one float is given)
@@ -54,22 +56,14 @@ public class MovingEnemy : Enemy
         //If the new position is on the left
         if (transform.position.x - xPosition < 0f)
         {
-            //And we can move left
-            if (_canMoveLeft)
-            {
-                //We move left at a defined speed
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
-            }
+            //We move left at a defined speed
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
         }
         //Else if the new position is on the right
         else
         {
-            //And we can move right
-            if (_canMoveRight)
-            {
-                //We move left at a defined speed
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
-            }
+            //We move left at a defined speed
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(xPosition, yPosition), _speed * Time.deltaTime);
         }
     }
 }

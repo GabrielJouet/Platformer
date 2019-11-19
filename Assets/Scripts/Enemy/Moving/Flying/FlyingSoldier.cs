@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 
-public class WalkingSoldier : WalkingEnemy
+public class FlyingSoldier : FlyingEnemy
 {
     private void Start()
     {
         //We set max speed
         _speedMax = _speed;
+
+        _rigidBody2D = GetComponent<Rigidbody2D>();
+
+        _rigidBody2D.gravityScale = 0f;
 
         //We launch coroutine for watching player
         StartCoroutine(WatchOutPlayer());
@@ -17,10 +21,7 @@ public class WalkingSoldier : WalkingEnemy
         //If the enemy does already chase someone
         if (_isChasingPlayer)
         {
-            //We check the enemy's position
-            CheckGroundedPosition();
-
-            float distanceWithPlayer = Mathf.Sqrt(Mathf.Pow(_chasingPlayer.transform.position.x - transform.position.x, 2));
+            float distanceWithPlayer = Mathf.Sqrt((transform.position - _chasingPlayer.transform.position).sqrMagnitude);
 
 
             //If the enemy is too far enough from the player
@@ -30,7 +31,7 @@ public class WalkingSoldier : WalkingEnemy
                 _speed = _speedMax * 2f;
 
                 //And it moves
-                Move(_chasingPlayer.transform.position.x);
+                Move(_chasingPlayer.transform.position.x, _chasingPlayer.transform.position.y);
             }
             //If the enemy is too close 
             else if (distanceWithPlayer <= _minDistanceWithPlayer - 0.01f)
@@ -41,8 +42,10 @@ public class WalkingSoldier : WalkingEnemy
                 //The enemy can attack the player (close combat only TO CHANGE)
                 _isAttackingPlayer = true;
 
+                Vector2 retreatPosition = FindRetreatPosition();
+
                 //And it will moves backward
-                Move(FindRetreatPosition().x);
+                Move(retreatPosition.x, retreatPosition.y);
             }
         }
     }
