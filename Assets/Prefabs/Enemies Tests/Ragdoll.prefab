@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3176757645176980500}
   - component: {fileID: 3781661019364504877}
   - component: {fileID: 3777929726910067434}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ragdoll
   m_TagString: Player
   m_Icon: {fileID: 0}
