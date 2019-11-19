@@ -30,4 +30,28 @@ public class Entity : MonoBehaviour
         //If the collision object is a wall
         _isGrounded = !collision.gameObject.CompareTag("Wall");
     }
+
+
+
+    //Method used when we get hit by something (damage given)
+    public void GetHit(float damage)
+    {
+        _health -= damage;
+
+        //If we don't have health anymore
+        if(_health <= 0f)
+        {
+            //We destroy the object
+            Destroy(gameObject);
+        }
+    }
+
+
+
+    //Method used when we get hit (damage not given)
+    public void GetHit()
+    {
+        //We destroy the object
+        Destroy(gameObject);
+    }
 }
