@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1753265719581464388}
   - component: {fileID: -7229971574697101506}
   - component: {fileID: 4052202263352508009}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,6 +165,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Checker Left
       objectReference: {fileID: 0}
+    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 992924579038053270, guid: e193ca0d454c06842b94055692e2f74a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -252,6 +257,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Checker Right
       objectReference: {fileID: 0}
+    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 992924579038053270, guid: e193ca0d454c06842b94055692e2f74a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -338,6 +348,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5394873402182431735, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}

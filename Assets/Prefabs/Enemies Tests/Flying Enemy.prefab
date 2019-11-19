@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8119863083383433079}
   - component: {fileID: 1894116131899623618}
   - component: {fileID: 2013692846279428839}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flying Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,6 +160,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5394873402182431735, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}
