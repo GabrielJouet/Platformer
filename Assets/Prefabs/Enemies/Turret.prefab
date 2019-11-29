@@ -180,3 +180,5 @@ MonoBehaviour:
   _fieldOfSight: 5
   _eyePosition: {fileID: 2201647579206384393}
   _minDistanceWithPlayer: 0
+  bulletPrefab: {fileID: 292618868806952416, guid: a52b56da75f8e7b4280a267fb4958ad9,
+    type: 3}

@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Turret : Enemy
 {
+	[SerializeField]
+	private GameObject bulletPrefab;
+
 	private Transform barrelTransform;
+	private ProjectilePool projectilePool;
+
 	private float maxAngle = 45.0f;
+	private bool canShoot = true;
 
 	private void Start()
 	{
 		barrelTransform = transform.GetChild(0);
+		projectilePool = FindObjectOfType<ProjectilePool>();
+
 		StartCoroutine("WatchOutPlayer");
 	}
 
@@ -31,14 +39,29 @@ public class Turret : Enemy
 				// And start to attack
 				_isAttackingPlayer = true;
 
-				AttackPlayer();
-
+				if (canShoot)
+				{
+					AttackPlayer();
+				}
 			}
 		}
 	}
 
+	private IEnumerator StartCooldown()
+	{
+		this.canShoot = false;
+		yield return new WaitForSecondsRealtime(1);
+		this.canShoot = true;
+	}
+
 	private void AttackPlayer()
 	{
+		Projectile buffer = projectilePool.UseProjectile(bulletPrefab);
 
+		buffer.Restart();
+		buffer.gameObject.transform.position = transform.position;
+		buffer.gameObject.transform.up = barrelTransform.up;
+
+		StartCoroutine("StartCooldown");
 	}
 }
