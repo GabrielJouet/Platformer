@@ -9,42 +9,46 @@ public class Checker : MonoBehaviour
     [SerializeField]
     private Player _player;
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D other)
     {
-        switch (id)
         {
-            case 0:
-                _player.SetLowerBoxCollision(true);
-                break;
-            case 1:
-                _player.SetUpperBoxCollision(true);
-                break;
-            case 2:
-                _player.SetLeftBoxCollision(true);
-                break;
-            case 3:
-                _player.SetRightBoxCollision(true);
-                break;
+            Debug.Log("collision");
+            switch (id)
+            {
+                case 0:
+                    _player.SetLowerBoxCollision(true);
+                    break;
+                case 1:
+                    _player.SetUpperBoxCollision(true);
+                    break;
+                case 2:
+                    _player.SetLeftBoxCollision(true);
+                    break;
+                case 3:
+                    _player.SetRightBoxCollision(true);
+                    break;
+            }
         }
     }
 
-    public void OnCollisionExit2D(Collision2D collision)
+    public void OnTriggerExit2D(Collider2D other)
     {
-        switch (id)
         {
-            case 0:
-                _player.SetLowerBoxCollision(false);
-                break;
-            case 1:
-                _player.SetUpperBoxCollision(false);
-                break;
-            case 2:
-                _player.SetLeftBoxCollision(false);
-                break;
-            case 3:
-                _player.SetRightBoxCollision(false);
-                break;
+            switch (id)
+            {
+                case 0:
+                    _player.SetLowerBoxCollision(false);
+                    break;
+                case 1:
+                    _player.SetUpperBoxCollision(false);
+                    break;
+                case 2:
+                    _player.SetLeftBoxCollision(false);
+                    break;
+                case 3:
+                    _player.SetRightBoxCollision(false);
+                    break;
+            }
         }
     }
-
 }
