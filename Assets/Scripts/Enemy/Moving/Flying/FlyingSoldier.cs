@@ -72,11 +72,11 @@ public class FlyingSoldier : FlyingEnemy
     {
         while(true)
         {
-            Projectile buffer = _projectilePool.UseProjectile(_currentProjectile);
+            /*Projectile buffer = _projectilePool.UseProjectile(_currentProjectile);
             buffer.Restart();
 
-            buffer.transform.position = transform.position;
-
+            buffer.transform.position = transform.position;*/
+			
             yield return new WaitForSecondsRealtime(_timeBetweenShots);
         }
     }

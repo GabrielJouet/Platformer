@@ -3,43 +3,47 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+	[SerializeField]
+	private int _id;
     [SerializeField]
     private float _speed;
-
-
     [SerializeField]
     private float _livingTime;
-
-
 
     private ProjectilePool _projectilePool;
 
     private void Start()
     {
         _projectilePool = FindObjectOfType<ProjectilePool>();
-        StartCoroutine(FadeOut());
+		StartCoroutine(FadeOut());
     }
-
 
     private void FixedUpdate()
     {
-        transform.position = new Vector3(transform.position.x + _speed * Time.fixedDeltaTime, 0f, 0f);
+		transform.Translate(Vector3.up * _speed * Time.deltaTime);
     }
+	public void Restart()
+	{
+		StartCoroutine(FadeOut());
+	}
 
-
-    public void Restart()
+	public void Restart(float livingTime, float speed)
     {
+		this._livingTime = livingTime;
+		this._speed = speed;
         StartCoroutine(FadeOut());
     }
 
+	public int GetId()
+	{
+		return this._id;
+	}
 
     private IEnumerator FadeOut()
     {
         yield return new WaitForSecondsRealtime(_livingTime);
         _projectilePool.AddProjectileToList(this);
     }
-
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
