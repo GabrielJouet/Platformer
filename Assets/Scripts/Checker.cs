@@ -10,24 +10,21 @@ public class Checker : MonoBehaviour
     private Player _player;
 
     public void OnTriggerEnter2D(Collider2D other)
-    {
+    {   
+        switch (id)
         {
-            Debug.Log("collision");
-            switch (id)
-            {
-                case 0:
-                    _player.SetLowerBoxCollision(true);
-                    break;
-                case 1:
-                    _player.SetUpperBoxCollision(true);
-                    break;
-                case 2:
-                    _player.SetLeftBoxCollision(true);
-                    break;
-                case 3:
-                    _player.SetRightBoxCollision(true);
-                    break;
-            }
+            case 0:
+                _player.SetLowerBoxCollision(true);
+                break;
+            case 1:
+                _player.SetUpperBoxCollision(true);
+                break;
+            case 2:
+                _player.SetLeftBoxCollision(true);
+                break;
+            case 3:
+                _player.SetRightBoxCollision(true);
+                break;
         }
     }
 

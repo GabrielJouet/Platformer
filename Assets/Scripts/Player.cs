@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && (_lowerBoxCollision || _rightBoxCollision || _leftBoxCollision))
+        if (Input.GetKeyDown(KeyCode.Space) && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
         {
             Jump();
         }
@@ -94,23 +94,23 @@ public class Player : MonoBehaviour
     public void SetLowerBoxCollision(bool boolean)
     {
         _lowerBoxCollision = boolean;
-        Debug.Log(_lowerBoxCollision);
+        Debug.Log("lower :" + _lowerBoxCollision);
     }
     public void SetUpperBoxCollision(bool boolean)
     {
         _upperBoxCollision = boolean;
-        Debug.Log(_upperBoxCollision);
+        Debug.Log("upper :" + _upperBoxCollision);
     }
     public void SetLeftBoxCollision(bool boolean)
     {
         _leftBoxCollision = boolean;
-        Debug.Log(_leftBoxCollision);
+        Debug.Log("left :" + _leftBoxCollision);
     }
 
     public void SetRightBoxCollision(bool boolean)
     {
         _rightBoxCollision = boolean;
-        Debug.Log(_rightBoxCollision);
+        Debug.Log("right :" + _rightBoxCollision);
     }
 }
 
