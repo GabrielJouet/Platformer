@@ -5,16 +5,16 @@ using UnityEngine;
 public class Turret : Enemy, IShootable
 {
 	[SerializeField]
-	private GameObject _bulletPrefab;
-	public GameObject bulletPrefab
+	private int _bulletId;
+	public int bulletId
 	{
 		get
 		{
-			return this._bulletPrefab;
+			return this._bulletId;
 		}
 		set
 		{
-			this._bulletPrefab = value;
+			this._bulletId = value;
 		}
 	}
 	[SerializeField]
@@ -80,7 +80,7 @@ public class Turret : Enemy, IShootable
 
 	public void AttackPlayer()
 	{
-		Projectile buffer = projectilePool.UseProjectile(bulletPrefab);
+		Projectile buffer = projectilePool.UseProjectile(bulletId);
 
 		buffer.Restart();
 		buffer.gameObject.transform.position = transform.position;

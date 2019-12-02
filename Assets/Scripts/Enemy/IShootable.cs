@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IShootable
 {
-	GameObject bulletPrefab
+	int bulletId
 	{
 		get;
 		set;

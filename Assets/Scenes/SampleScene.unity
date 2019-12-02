@@ -246,6 +246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4718ffe46003d499479fa175169dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _projectileList:
+  - {fileID: 292618868806952416, guid: a52b56da75f8e7b4280a267fb4958ad9, type: 3}
 --- !u!1001 &1387998762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -349,6 +351,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _shotCooldown
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201647579249848674, guid: 1e0e567ee7830e64290259874dac384c,
+        type: 3}
+      propertyPath: _bulletId
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e0e567ee7830e64290259874dac384c, type: 3}
