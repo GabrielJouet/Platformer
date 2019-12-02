@@ -2,10 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : Enemy
+public class Turret : Enemy, IShootable
 {
 	[SerializeField]
-	private GameObject bulletPrefab;
+	private GameObject _bulletPrefab;
+	public GameObject bulletPrefab
+	{
+		get
+		{
+			return this._bulletPrefab;
+		}
+		set
+		{
+			this._bulletPrefab = value;
+		}
+	}
+	[SerializeField]
+	private float _shotCooldown;
+	public float shotCooldown
+	{
+		get
+		{
+			return this._shotCooldown;
+		}
+		set
+		{
+			this._shotCooldown = value;
+		}
+	}
 
 	private Transform barrelTransform;
 	private ProjectilePool projectilePool;
@@ -47,14 +71,14 @@ public class Turret : Enemy
 		}
 	}
 
-	private IEnumerator StartCooldown()
+	public IEnumerator StartCooldown()
 	{
 		this.canShoot = false;
-		yield return new WaitForSecondsRealtime(1);
+		yield return new WaitForSecondsRealtime(shotCooldown);
 		this.canShoot = true;
 	}
 
-	private void AttackPlayer()
+	public void AttackPlayer()
 	{
 		Projectile buffer = projectilePool.UseProjectile(bulletPrefab);
 
