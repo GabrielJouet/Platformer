@@ -45,9 +45,20 @@ public class Turret : Enemy, IShootable
 		}
 	}
 
-	protected Transform barrelTransform;
+	protected ProjectilePool _projectilePool;
+	public ProjectilePool projectilePool
+	{
+		get
+		{
+			return this._projectilePool;
+		}
+		set
+		{
+			this._projectilePool = value;
+		}
+	}
 
-	protected ProjectilePool projectilePool;
+	protected Transform barrelTransform;
 
 	protected float maxAngle = 45.0f;
 	protected bool canShoot = true;

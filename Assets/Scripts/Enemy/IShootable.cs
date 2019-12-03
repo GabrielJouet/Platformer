@@ -19,6 +19,11 @@ public interface IShootable
 		get;
 		set;
 	}
+	ProjectilePool projectilePool
+	{
+		get;
+		set;
+	}
 
 	IEnumerator StartCooldown();
 	void AttackPlayer();
