@@ -399,7 +399,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31, y: 0.31}
+  m_Size: {x: 0.32, y: 0.32}
   m_EdgeRadius: 0
 --- !u!50 &7646393605515030073
 Rigidbody2D:
@@ -413,7 +413,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 80
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -434,6 +434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb539483a0e21749bdf7b728fb9fe84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
-  _gravityScale: 15
+  _speed: 4
+  _gravityScale: 6000
   _canMoveHorizontaly: 0
