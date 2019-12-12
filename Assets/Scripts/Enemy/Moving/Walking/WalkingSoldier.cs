@@ -1,7 +1,20 @@
 ﻿using UnityEngine;
 
-public class WalkingSoldier : WalkingEnemy
+public class WalkingSoldier : WalkingEnemy, IPatrollable
 {
+    private int _patrolState;
+    public int patrolState
+    {
+        get
+        {
+            return this._patrolState;
+        }
+        set
+        {
+            this._patrolState = value;
+        }
+    }
+
     private void Start()
     {
         //We set max speed
@@ -44,6 +57,10 @@ public class WalkingSoldier : WalkingEnemy
                 //And it will moves backward
                 Move(FindRetreatPosition().x);
             }
+        }
+        else
+        {
+            // TODO patrol state
         }
     }
 }
