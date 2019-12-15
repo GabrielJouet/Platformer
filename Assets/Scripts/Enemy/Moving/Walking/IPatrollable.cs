@@ -10,4 +10,18 @@ public interface IPatrollable
 		get;
 		set;
 	}
+
+	//Should the patrol have a given amplitude
+	bool isPatrolLimited
+	{
+		get;
+		set;
+	}
+
+	//The amplitude of the limited patrol
+	float patrolMagnitude
+	{
+		get;
+		set;
+	}
 }
