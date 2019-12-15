@@ -14,6 +14,7 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
             this._patrolState = value;
         }
     }
+    [SerializeField]
     private bool _isPatrolLimited;
     public bool isPatrolLimited
     {
@@ -26,6 +27,7 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
             this._isPatrolLimited = value;
         }
     }
+    [SerializeField]
     private float _patrolMagnitude;
     public float patrolMagnitude
     {
@@ -47,8 +49,6 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
         _speedMax = _speed;
 
         patrolState = 1;
-        isPatrolLimited = true;
-        patrolMagnitude = 3;
 
         patrolStartingPoint = transform.position.x;
 
