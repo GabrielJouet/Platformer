@@ -6,7 +6,7 @@ public class WalkingEnemy : MovingEnemy
     protected void CheckGroundedPosition()
     {
         //If the right checker still collide
-        if (_voidCheckers[0].GetIsTouchingWall())
+        if (_voidCheckers[1].GetIsTouchingWall())
         {
             _canMoveRight = true;
         }
@@ -18,7 +18,7 @@ public class WalkingEnemy : MovingEnemy
 
 
         //If the left checker still collide
-        if (_voidCheckers[1].GetIsTouchingWall())
+        if (_voidCheckers[0].GetIsTouchingWall())
         {
             _canMoveLeft = true;
         }

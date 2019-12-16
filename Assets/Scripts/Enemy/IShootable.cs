@@ -14,6 +14,16 @@ public interface IShootable
 		get;
 		set;
 	}
+	float shotPrecision
+	{
+		get;
+		set;
+	}
+	ProjectilePool projectilePool
+	{
+		get;
+		set;
+	}
 
 	IEnumerator StartCooldown();
 	void AttackPlayer();

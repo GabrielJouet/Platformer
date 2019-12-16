@@ -17,12 +17,15 @@ public class Enemy : Entity
     [SerializeField]
     protected float _minDistanceWithPlayer;
 
+    [SerializeField]
+    protected float _memoryTime;
 
     //The actual player
     protected GameObject _chasingPlayer;
 
     //Did the enemy is actually chasing the player?
     protected bool _isChasingPlayer;
+    protected bool _stillRememberPlayer = false;
 
     //Did the enemy is actually trying to kill the player?
     protected bool _isAttackingPlayer;
@@ -54,6 +57,10 @@ public class Enemy : Entity
 				else
 				{
 					//The enemy leaves the player
+                    if (!_stillRememberPlayer)
+                    {
+                        StartCoroutine("RememberPlayer");
+                    }
 					_isChasingPlayer = false;
 					_chasingPlayer = null;
                 }
@@ -62,5 +69,12 @@ public class Enemy : Entity
             //We wait a certain amount of time before retrying
             yield return new WaitForSecondsRealtime(0.2f);
         }
+    }
+
+    protected IEnumerator RememberPlayer()
+    {
+        _stillRememberPlayer = true;
+        yield return new WaitForSecondsRealtime(_memoryTime);
+        _stillRememberPlayer = false;
     }
 }

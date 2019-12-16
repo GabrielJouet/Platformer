@@ -5,7 +5,7 @@ using UnityEngine;
 public class Turret : Enemy, IShootable
 {
 	[SerializeField]
-	private int _bulletId;
+	protected int _bulletId;
 	public int bulletId
 	{
 		get
@@ -18,7 +18,7 @@ public class Turret : Enemy, IShootable
 		}
 	}
 	[SerializeField]
-	private float _shotCooldown;
+	protected float _shotCooldown;
 	public float shotCooldown
 	{
 		get
@@ -31,45 +31,37 @@ public class Turret : Enemy, IShootable
 		}
 	}
 
-	private Transform barrelTransform;
-	private ProjectilePool projectilePool;
-
-	private float maxAngle = 45.0f;
-	private bool canShoot = true;
-
-	private void Start()
+	[SerializeField]
+	protected float _shotPrecision;
+	public float shotPrecision
 	{
-		barrelTransform = transform.GetChild(0);
-		projectilePool = FindObjectOfType<ProjectilePool>();
-
-		StartCoroutine("WatchOutPlayer");
-	}
-
-	private void Update()
-	{
-		// If the watching coroutine detect that the turret is seeing the player
-		if (_isChasingPlayer)
+		get
 		{
-			// The turret rotate to the direction of the player if the angle is small enough
-			Vector2 PlayerOffset;
-
-			PlayerOffset = _chasingPlayer.transform.position - transform.position;
-			PlayerOffset.Normalize();
-
-			if (Vector2.Angle(transform.up, PlayerOffset) < maxAngle)
-			{
-				barrelTransform.up = PlayerOffset;
-
-				// And start to attack
-				_isAttackingPlayer = true;
-
-				if (canShoot)
-				{
-					AttackPlayer();
-				}
-			}
+			return this._shotPrecision;
+		}
+		set
+		{
+			this._shotPrecision = value;
 		}
 	}
+
+	protected ProjectilePool _projectilePool;
+	public ProjectilePool projectilePool
+	{
+		get
+		{
+			return this._projectilePool;
+		}
+		set
+		{
+			this._projectilePool = value;
+		}
+	}
+
+	protected Transform barrelTransform;
+
+	protected float maxAngle = 45.0f;
+	protected bool canShoot = true;
 
 	public IEnumerator StartCooldown()
 	{
@@ -83,8 +75,9 @@ public class Turret : Enemy, IShootable
 		Projectile buffer = projectilePool.UseProjectile(bulletId);
 
 		buffer.Restart();
-		buffer.gameObject.transform.position = transform.position;
-		buffer.gameObject.transform.up = barrelTransform.up;
+		buffer.transform.position = transform.position;
+		buffer.transform.up = barrelTransform.up;
+		buffer.transform.Rotate(buffer.transform.forward, Random.Range(-shotPrecision, shotPrecision));
 
 		StartCoroutine("StartCooldown");
 	}
