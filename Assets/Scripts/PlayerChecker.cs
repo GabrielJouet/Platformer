@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Checker : MonoBehaviour
+public class PlayerChecker : MonoBehaviour
 {
     [SerializeField]
     private int id;
