@@ -258,6 +258,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flying Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4322255103003735914, guid: ea6e9ea59b920cb4fa2d8d6a064abafc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7122579060607109653, guid: ea6e9ea59b920cb4fa2d8d6a064abafc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -376,6 +381,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201647579249848669, guid: 1e0e567ee7830e64290259874dac384c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2201647579249848675, guid: 1e0e567ee7830e64290259874dac384c,
         type: 3}
@@ -757,6 +767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _patrolMagnitude
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052202263352508009, guid: a6153699a47fe6940b73a587c7ac3e83,
+        type: 3}
+      propertyPath: _memoryTime
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6153699a47fe6940b73a587c7ac3e83, type: 3}

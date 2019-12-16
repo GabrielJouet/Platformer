@@ -99,30 +99,38 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
              * In the patrol state 1 (when the enemy goes right), he's stuck by his patrol magnitude
              * But when he goes left, he just try to go as far as possible to the left
              */
+            _speed = _speedMax;
 
             CheckGroundedPosition();
 
-            if (patrolState == 1)
+            switch (patrolState)
             {
-                if (transform.position.x + _speed * Time.deltaTime < patrolStartingPoint + patrolMagnitude / 2)
-                {
-                    Move(transform.position.x + _speed);
-                }
-                else
-                {
-                    patrolState = 2;
-                }
-            }
-            else if (patrolState == 2)
-            {
-                if (_canMoveRight)
-                {
-                    Move(transform.position.x - _speed);
-                }
-                else
-                {
-                    patrolState = 1;
-                }
+                case 0:
+                    if (!_stillRememberPlayer)
+                    {
+                        patrolState = 1;
+                    }
+                    break;
+                case 1:
+                    if (transform.position.x + _speed * Time.deltaTime < patrolStartingPoint + patrolMagnitude / 2)
+                    {
+                        Move(transform.position.x + _speed);
+                    }
+                    else
+                    {
+                        patrolState = 2;
+                    }
+                    break;
+                case 2:
+                    if (_canMoveRight)
+                    {
+                        Move(transform.position.x - _speed);
+                    }
+                    else
+                    {
+                        patrolState = 1;
+                    }
+                    break;
             }
         }
     }
