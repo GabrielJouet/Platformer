@@ -31,6 +31,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _rightBoxCollision = false;
 
+    private int _nbLowerCollision = 0;
+    private int _nbUpperCollision = 0;
+    private int _nbLeftCollision = 0;
+    private int _nbRightCollision = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,19 +125,83 @@ public class Player : MonoBehaviour
 
     public void SetLowerBoxCollision(bool boolean)
     {
-        _lowerBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbLowerCollision++;
+        }
+        else
+        {
+            _nbLowerCollision--;
+        }
+
+        if (_nbLowerCollision == 0)
+        {
+            _lowerBoxCollision = false;
+        }
+        else
+        {
+            _lowerBoxCollision = true;
+        }
     }
     public void SetUpperBoxCollision(bool boolean)
     {
-        _upperBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbUpperCollision++;
+        }
+        else
+        {
+            _nbUpperCollision--;
+        }
+
+        if (_nbUpperCollision == 0)
+        {
+            _upperBoxCollision = false;
+        }
+        else
+        {
+            _upperBoxCollision = true;
+        }
     }
     public void SetLeftBoxCollision(bool boolean)
     {
-        _leftBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbLeftCollision++;
+        }
+        else
+        {
+            _nbLeftCollision--;
+        }
+
+        if (_nbLeftCollision == 0)
+        {
+            _leftBoxCollision = false;
+        }
+        else
+        {
+            _leftBoxCollision = true;
+        }
     }
     public void SetRightBoxCollision(bool boolean)
     {
-        _rightBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbRightCollision++;
+        }
+        else
+        {
+            _nbRightCollision--;
+        }
+
+        if (_nbRightCollision == 0)
+        {
+            _rightBoxCollision = false;
+        }
+        else
+        {
+            _rightBoxCollision = true;
+        }
     }
 }
 
