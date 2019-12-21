@@ -103,6 +103,14 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
 
             CheckGroundedPosition();
 
+            ProcessPatrol();
+        }
+    }
+
+    private void ProcessPatrol()
+    {
+        if (isPatrolLimited)
+        {
             switch (patrolState)
             {
                 case 0:
@@ -112,7 +120,39 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
                     }
                     break;
                 case 1:
-                    if (transform.position.x + _speed * Time.deltaTime < patrolStartingPoint + patrolMagnitude / 2)
+                    if (_canMoveLeft && transform.position.x + _speed * Time.deltaTime < patrolStartingPoint + patrolMagnitude / 2)
+                    {
+                        Move(transform.position.x + _speed);
+                    }
+                    else
+                    {
+                        patrolState = 2;
+                    }
+                    break;
+                case 2:
+                    if (_canMoveRight && transform.position.x - _speed * Time.deltaTime > patrolStartingPoint - patrolMagnitude / 2)
+                    {
+                        Move(transform.position.x - _speed);
+                    }
+                    else
+                    {
+                        patrolState = 1;
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            switch (patrolState)
+            {
+                case 0:
+                    if (!_stillRememberPlayer)
+                    {
+                        patrolState = 1;
+                    }
+                    break;
+                case 1:
+                    if (_canMoveLeft )
                     {
                         Move(transform.position.x + _speed);
                     }
