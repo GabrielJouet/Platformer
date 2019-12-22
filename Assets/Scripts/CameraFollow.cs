@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -22,6 +24,8 @@ public class CameraFollow : MonoBehaviour
         //Initializing some values
         transform.position = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y + 0.5f, -50);
         _addedMoves = new Vector3();
+
+        Shake(.1f, 2, 50);
     }
 
     private void FixedUpdate()
@@ -43,6 +47,22 @@ public class CameraFollow : MonoBehaviour
         if (moveVector == Vector3.zero)
         {
             _addedMoves = new Vector3();
+        }
+    }
+
+    public void Shake(float speed, float amplitude, int count)
+    {
+        StartCoroutine(startShaking(speed, amplitude, count));
+    }
+
+    private IEnumerator startShaking(float speed, float amplitude, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 randomVector = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0) * amplitude;
+            transform.position = Vector3.MoveTowards(transform.position, randomVector, amplitude);
+            yield return new WaitForSecondsRealtime(speed);
+            transform.position = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y + 0.5f, -50);
         }
     }
 }
