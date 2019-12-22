@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 
     private bool _facingRight = true;
 
+    private float _timeWhenSpaceDown = 0;
+    private float _timeWhenSpaceUp = 0;
+    private float _timeSpaceWasPressed = 0;
+
     private Rigidbody2D _rigidBody;
     private BoxCollider2D _boxCollider2D;
     private Animator _animator;
@@ -48,29 +52,56 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float direction = Input.GetAxis("Horizontal");
-        if (direction > 0f && !_rightBoxCollision)
+        float horizontalDirection = Input.GetAxis("Horizontal");
+        if (horizontalDirection > 0f && !_rightBoxCollision)
         {
-            Flip(direction);
+            Flip(horizontalDirection);
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);          
         }
-        else if (direction < 0f && !_leftBoxCollision)
+        else if (horizontalDirection < 0f && !_leftBoxCollision)
         {
-            Flip(direction);
+            Flip(horizontalDirection);
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
+
+        if (Input.GetKeyDown("space") && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
         {
-            Jump();
+            _timeWhenSpaceDown = Time.time;
+        }
+        if (Input.GetKeyUp("space") && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
+        {
+            _timeWhenSpaceUp = Time.time;
+            _timeSpaceWasPressed = _timeWhenSpaceUp - _timeWhenSpaceDown;
+            if (_timeSpaceWasPressed >= 0.4f)
+            {
+                Jump(1);
+            }
+            else if (_timeSpaceWasPressed >= 0.3f && _timeSpaceWasPressed <= 0.4f)
+            {
+                Jump(.85f);
+            }
+            else if (_timeSpaceWasPressed >= 0.2f && _timeSpaceWasPressed <= 0.3f)
+            {
+                Jump(.70f);
+            }
+            else if (_timeSpaceWasPressed >= 0.1f && _timeSpaceWasPressed <= 0.2f)
+            {
+                Jump(0.50f);
+            }
+            else if (_timeSpaceWasPressed > 0f && _timeSpaceWasPressed <= 0.1f)
+            {
+                Jump(0.40f);
+            }
         }
 
-        CheckAnimation(direction);
+
+        CheckAnimation(horizontalDirection);
     }
 
-    private void Jump()
+    private void Jump(float coefficient)
     {
-        _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed, transform.position);
+        _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed * coefficient, transform.position);
         _isJumping = true;
         _jumpIsOver = false;
         this._animator.SetBool("isJumping", _isJumping);
