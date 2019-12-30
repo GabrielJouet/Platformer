@@ -1,7 +1,63 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class WalkingSoldier : WalkingEnemy, IPatrollable
+public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
 {
+    [SerializeField]
+    protected int _bulletId;
+    public int bulletId
+    {
+        get
+        {
+            return this._bulletId;
+        }
+        set
+        {
+            this._bulletId = value;
+        }
+    }
+    [SerializeField]
+    protected float _shotCooldown;
+    public float shotCooldown
+    {
+        get
+        {
+            return this._shotCooldown;
+        }
+        set
+        {
+            this._shotCooldown = value;
+        }
+    }
+    [SerializeField]
+    protected float _shotPrecision;
+    public float shotPrecision
+    {
+        get
+        {
+            return this._shotPrecision;
+        }
+        set
+        {
+            this._shotPrecision = value;
+        }
+    }
+
+    protected ProjectilePool _projectilePool;
+    public ProjectilePool projectilePool
+    {
+        get
+        {
+            return this._projectilePool;
+        }
+        set
+        {
+            this._projectilePool = value;
+        }
+    }
+
+    protected bool _canShoot = true;
+
     private int _patrolState;
     public int patrolState
     {
@@ -45,6 +101,8 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
 
     private void Start()
     {
+        _projectilePool = FindObjectOfType<ProjectilePool>();
+
         //We set max speed
         _speedMax = _speed;
 
@@ -56,6 +114,13 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
         StartCoroutine(WatchOutPlayer());
     }
 
+    private void Update()
+    {
+        if (_isAttackingPlayer && _canShoot)
+        {
+            AttackPlayer();
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -73,9 +138,11 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
             //If the enemy is too far enough from the player
             if (distanceWithPlayer > _minDistanceWithPlayer + _speed * Time.fixedDeltaTime)
             {
+                _isAttackingPlayer = false;
+
                 //The enemy speeds up
                 _speed = _speedMax * 2f;
-
+                
                 //And it moves
                 Move(_chasingPlayer.transform.position.x);
             }
@@ -173,5 +240,24 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable
                     break;
             }
         }
+    }
+
+    public IEnumerator StartCooldown()
+    {
+        this._canShoot = false;
+        yield return new WaitForSecondsRealtime(shotCooldown);
+        this._canShoot = true;
+    }
+
+    public void AttackPlayer()
+    {
+        Projectile buffer = projectilePool.UseProjectile(bulletId);
+
+        buffer.Restart();
+        buffer.transform.position = transform.position;
+        buffer.transform.up = (_chasingPlayer.transform.position - transform.position).normalized;
+        buffer.transform.Rotate(buffer.transform.forward, Random.Range(-shotPrecision, shotPrecision));
+
+        StartCoroutine("StartCooldown");
     }
 }
