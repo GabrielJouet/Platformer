@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private int _speed = 12;
     [SerializeField]
     private int _gravityScale = 25;
+    private float _fallMultiplier = 2.5f;
+    private float _lowJumpMultiplier = 2f;
     [SerializeField]
     private bool _isJumping = false;
     private bool _isFalling = false;
@@ -64,47 +66,33 @@ public class Player : MonoBehaviour
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
         }
 
-
         if (Input.GetKeyDown("space") && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
         {
-            _timeWhenSpaceDown = Time.time;
+            Jump();
         }
-        if (Input.GetKeyUp("space") && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
-        {
-            _timeWhenSpaceUp = Time.time;
-            _timeSpaceWasPressed = _timeWhenSpaceUp - _timeWhenSpaceDown;
-            if (_timeSpaceWasPressed >= 0.4f)
-            {
-                Jump(1);
-            }
-            else if (_timeSpaceWasPressed >= 0.3f && _timeSpaceWasPressed <= 0.4f)
-            {
-                Jump(.85f);
-            }
-            else if (_timeSpaceWasPressed >= 0.2f && _timeSpaceWasPressed <= 0.3f)
-            {
-                Jump(.70f);
-            }
-            else if (_timeSpaceWasPressed >= 0.1f && _timeSpaceWasPressed <= 0.2f)
-            {
-                Jump(0.50f);
-            }
-            else if (_timeSpaceWasPressed > 0f && _timeSpaceWasPressed <= 0.1f)
-            {
-                Jump(0.40f);
-            }
-        }
-
 
         CheckAnimation(horizontalDirection);
+        GravityHandler();
     }
 
-    private void Jump(float coefficient)
+    private void Jump()
     {
-        _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed * coefficient, transform.position);
+        _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed, transform.position);
         _isJumping = true;
         _jumpIsOver = false;
         this._animator.SetBool("isJumping", _isJumping);
+    }
+
+    private void GravityHandler()
+    {
+        if (_rigidBody.velocity.y < 0)
+        {
+            _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (_rigidBody.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.deltaTime;
+        }
     }
 
     //Flips the player depending on it's horizontal direction
