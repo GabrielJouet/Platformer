@@ -20,7 +20,7 @@ public class CombatController : MonoBehaviour
 	{
 		if (Input.GetAxis("Fire1") > 0.5)
 		{
-			hitCollider.offset = new Vector2(IsGoingRight() * 0.1f, hitCollider.offset.y);
+			hitCollider.offset = new Vector2(IsGoingRight() * 0.15f, hitCollider.offset.y);
 			StartCoroutine(TimeAttack());
 		}
 	}
