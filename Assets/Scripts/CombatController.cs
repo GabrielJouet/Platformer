@@ -27,7 +27,12 @@ public class CombatController : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		collision.gameObject.SetActive(false);
+		GameObject buffer = collision.gameObject;
+
+		if (buffer.tag == "Enemy")
+		{
+			collision.gameObject.SetActive(false);
+		}
 	}
 
 	private int IsGoingRight()

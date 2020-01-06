@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2201647579249848674}
   m_Layer: 0
   m_Name: Turret
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,5 +180,5 @@ MonoBehaviour:
   _fieldOfSight: 5
   _eyePosition: {fileID: 2201647579206384393}
   _minDistanceWithPlayer: 0
-  bulletPrefab: {fileID: 292618868806952416, guid: a52b56da75f8e7b4280a267fb4958ad9,
-    type: 3}
+  _bulletId: 0
+  _shotCooldown: 0
