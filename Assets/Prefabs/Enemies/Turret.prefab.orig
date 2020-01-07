@@ -180,6 +180,14 @@ MonoBehaviour:
   _fieldOfSight: 15
   _eyePosition: {fileID: 2201647579206384393}
   _minDistanceWithPlayer: 0
+<<<<<<< HEAD
+  _bulletId: 0
+  _shotCooldown: 0
+||||||| merged common ancestors
+  bulletPrefab: {fileID: 292618868806952416, guid: a52b56da75f8e7b4280a267fb4958ad9,
+    type: 3}
+=======
   _bulletId: 1
   _shotCooldown: 0.8
   _shotPrecision: 5
+>>>>>>> master

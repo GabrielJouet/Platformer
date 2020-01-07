@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private int _speed = 12;
     [SerializeField]
     private int _gravityScale = 25;
+    private float _fallMultiplier = 2.5f;
+    private float _lowJumpMultiplier = 2f;
     [SerializeField]
     private bool _isJumping = false;
     private bool _isFalling = false;
@@ -16,6 +18,10 @@ public class Player : MonoBehaviour
     private bool _jumpIsOver = true;
 
     private bool _facingRight = true;
+
+    private float _timeWhenSpaceDown = 0;
+    private float _timeWhenSpaceUp = 0;
+    private float _timeSpaceWasPressed = 0;
 
     private Rigidbody2D _rigidBody;
     private BoxCollider2D _boxCollider2D;
@@ -31,6 +37,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _rightBoxCollision = false;
 
+    private int _nbLowerCollision = 0;
+    private int _nbUpperCollision = 0;
+    private int _nbLeftCollision = 0;
+    private int _nbRightCollision = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,24 +54,25 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float direction = Input.GetAxis("Horizontal");
-        if (direction > 0f && !_rightBoxCollision)
+        float horizontalDirection = Input.GetAxis("Horizontal");
+        if (horizontalDirection > 0f && !_rightBoxCollision)
         {
-            Flip(direction);
+            Flip(horizontalDirection);
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);          
         }
-        else if (direction < 0f && !_leftBoxCollision)
+        else if (horizontalDirection < 0f && !_leftBoxCollision)
         {
-            Flip(direction);
+            Flip(horizontalDirection);
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
+        if (Input.GetKeyDown("space") && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
         {
             Jump();
         }
 
-        CheckAnimation(direction);
+        CheckAnimation(horizontalDirection);
+        GravityHandler();
     }
 
     private void Jump()
@@ -69,6 +81,18 @@ public class Player : MonoBehaviour
         _isJumping = true;
         _jumpIsOver = false;
         this._animator.SetBool("isJumping", _isJumping);
+    }
+
+    private void GravityHandler()
+    {
+        if (_rigidBody.velocity.y < 0)
+        {
+            _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (_rigidBody.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.deltaTime;
+        }
     }
 
     //Flips the player depending on it's horizontal direction
@@ -120,19 +144,83 @@ public class Player : MonoBehaviour
 
     public void SetLowerBoxCollision(bool boolean)
     {
-        _lowerBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbLowerCollision++;
+        }
+        else
+        {
+            _nbLowerCollision--;
+        }
+
+        if (_nbLowerCollision == 0)
+        {
+            _lowerBoxCollision = false;
+        }
+        else
+        {
+            _lowerBoxCollision = true;
+        }
     }
     public void SetUpperBoxCollision(bool boolean)
     {
-        _upperBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbUpperCollision++;
+        }
+        else
+        {
+            _nbUpperCollision--;
+        }
+
+        if (_nbUpperCollision == 0)
+        {
+            _upperBoxCollision = false;
+        }
+        else
+        {
+            _upperBoxCollision = true;
+        }
     }
     public void SetLeftBoxCollision(bool boolean)
     {
-        _leftBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbLeftCollision++;
+        }
+        else
+        {
+            _nbLeftCollision--;
+        }
+
+        if (_nbLeftCollision == 0)
+        {
+            _leftBoxCollision = false;
+        }
+        else
+        {
+            _leftBoxCollision = true;
+        }
     }
     public void SetRightBoxCollision(bool boolean)
     {
-        _rightBoxCollision = boolean;
+        if (boolean)
+        {
+            _nbRightCollision++;
+        }
+        else
+        {
+            _nbRightCollision--;
+        }
+
+        if (_nbRightCollision == 0)
+        {
+            _rightBoxCollision = false;
+        }
+        else
+        {
+            _rightBoxCollision = true;
+        }
     }
 }
 

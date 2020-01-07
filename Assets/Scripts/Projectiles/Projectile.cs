@@ -45,8 +45,14 @@ public class Projectile : MonoBehaviour
         _projectilePool.AddProjectileToList(this);
     }
 
+    //TODO collision with the player
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        GameObject buffer = collision.gameObject;
+
+        if (buffer.tag == "Player")
+        {
+            buffer.SetActive(false);
+        }
     }
 }
