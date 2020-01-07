@@ -42,6 +42,20 @@ public class FlyingSoldier : FlyingEnemy, IShootable
 			this._shotPrecision = value;
 		}
 	}
+	[SerializeField]
+	protected float _shotRange;
+	public float shotRange
+	{
+		get
+		{
+			return this._shotRange;
+		}
+		set
+		{
+			this._shotRange = value;
+		}
+	}
+
 
 	protected ProjectilePool _projectilePool;
 	public ProjectilePool projectilePool
@@ -74,7 +88,7 @@ public class FlyingSoldier : FlyingEnemy, IShootable
 
 	private void Update()
 	{
-		if (_isAttackingPlayer && _canShoot)
+		if (_chasingPlayer != null && _isAttackingPlayer && _canShoot)
 		{
 			AttackPlayer();
 		}
@@ -83,7 +97,7 @@ public class FlyingSoldier : FlyingEnemy, IShootable
 	private void FixedUpdate()
 	{
 		//If the enemy does already chase someone
-		if (_isChasingPlayer)
+		if (_chasingPlayer != null)
 		{
 			float distanceWithPlayer = Mathf.Sqrt((transform.position - _chasingPlayer.transform.position).sqrMagnitude);
 

@@ -97,6 +97,7 @@ MonoBehaviour:
   _id: 2
   _speed: 6
   _livingTime: 2
+  _damageAmount: 1.5
 --- !u!61 &7281199817338206702
 BoxCollider2D:
   m_ObjectHideFlags: 0

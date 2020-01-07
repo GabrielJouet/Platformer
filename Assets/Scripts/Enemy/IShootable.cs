@@ -19,6 +19,11 @@ public interface IShootable
 		get;
 		set;
 	}
+	float shotRange
+	{
+		get;
+		set;
+	}
 	ProjectilePool projectilePool
 	{
 		get;

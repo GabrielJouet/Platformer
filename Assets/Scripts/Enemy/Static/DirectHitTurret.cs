@@ -15,7 +15,7 @@ public class DirectHitTurret : Turret
 	private void Update()
 	{
 		// If the watching coroutine detect that the turret is seeing the player
-		if (_isChasingPlayer)
+		if (_chasingPlayer != null)
 		{
 			// The turret rotate to the direction of the player if the angle is small enough
 			Vector2 PlayerOffset;

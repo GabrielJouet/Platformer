@@ -45,6 +45,20 @@ public class Turret : Enemy, IShootable
 		}
 	}
 
+	[SerializeField]
+	protected float _shotRange;
+	public float shotRange
+	{
+		get
+		{
+			return this._shotRange;
+		}
+		set
+		{
+			this._shotRange = value;
+		}
+	}
+
 	protected ProjectilePool _projectilePool;
 	public ProjectilePool projectilePool
 	{

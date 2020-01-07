@@ -9,6 +9,8 @@ public class Projectile : MonoBehaviour
     private float _speed;
     [SerializeField]
     private float _livingTime;
+    [SerializeField]
+    private float _damageAmount;
 
     private ProjectilePool _projectilePool;
 
@@ -52,7 +54,8 @@ public class Projectile : MonoBehaviour
 
         if (buffer.tag == "Player")
         {
-            buffer.SetActive(false);
+            Entity playerScript = buffer.GetComponent<Entity>();
+            playerScript.GetHit(_damageAmount);
         }
     }
 }

@@ -24,7 +24,6 @@ public class Enemy : Entity
     protected GameObject _chasingPlayer;
 
     //Did the enemy is actually chasing the player?
-    protected bool _isChasingPlayer;
     protected bool _stillRememberPlayer = false;
 
     //Did the enemy is actually trying to kill the player?
@@ -51,7 +50,6 @@ public class Enemy : Entity
 					&& (Physics2D.Linecast(_eyePosition.position, buffer.transform.position, layerMasks).collider == buffer.GetComponent<CircleCollider2D>()))
                 {
 					//The enemy chases it down
-					_isChasingPlayer = true;
 					_chasingPlayer = buffer;
 				}
 				else
@@ -61,7 +59,6 @@ public class Enemy : Entity
                     {
                         StartCoroutine("RememberPlayer");
                     }
-					_isChasingPlayer = false;
 					_chasingPlayer = null;
                 }
             }
