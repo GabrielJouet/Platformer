@@ -104,7 +104,6 @@ public class FlyingSoldier : FlyingEnemy, IShootable
 			//If the enemy is too far enough from the player
 			if (distanceWithPlayer > _minDistanceWithPlayer + 0.01f)
 			{
-				_isAttackingPlayer = false;
 				//The enemy speeds up
 				_speed = _speedMax * 2f;
 				//And it moves
@@ -116,13 +115,19 @@ public class FlyingSoldier : FlyingEnemy, IShootable
 				//The enemy speed is reset
 				_speed = _speedMax;
 
-				//The enemy can attack the player (close combat only TO CHANGE)
-				_isAttackingPlayer = true;
-
 				Vector2 retreatPosition = FindRetreatPosition();
 
 				//And it will moves backward
 				Move(retreatPosition.x, retreatPosition.y);
+			}
+
+			if (distanceWithPlayer < _shotRange)
+			{
+				_isAttackingPlayer = true;
+			}
+			else
+			{
+				_isAttackingPlayer = false;
 			}
 		}
 	}
