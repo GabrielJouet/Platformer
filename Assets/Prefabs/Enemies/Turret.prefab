@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2201647579249848675}
   - component: {fileID: 2201647579249848668}
-  - component: {fileID: 2201647579249848674}
+  - component: {fileID: 5776812067833062756}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Enemy
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2201647579249848674
+--- !u!114 &5776812067833062756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,12 +173,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2201647579249848669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dd6b166b2a7264aaa83254574d4fa7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fc722aafc7031644b6b254cb14b5d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
-  _fieldOfSight: 5
+  _health: 5
+  _fieldOfSight: 15
   _eyePosition: {fileID: 2201647579206384393}
   _minDistanceWithPlayer: 0
-  _bulletId: 0
-  _shotCooldown: 0
+  _bulletId: 1
+  _shotCooldown: 0.8
+  _shotPrecision: 5
