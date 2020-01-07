@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4052202263352508009}
   m_Layer: 9
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,10 +149,16 @@ MonoBehaviour:
   _fieldOfSight: 3
   _eyePosition: {fileID: 3455286428614529008}
   _minDistanceWithPlayer: 0.75
+  _memoryTime: 0
   _speed: 0.8
   _voidCheckers:
   - {fileID: 4856516682843968864}
   - {fileID: 4904630934861609710}
+  _bulletId: 0
+  _shotCooldown: 0
+  _shotPrecision: 0
+  _isPatrolLimited: 0
+  _patrolMagnitude: 0
 --- !u!1001 &598114812802835629
 PrefabInstance:
   m_ObjectHideFlags: 0

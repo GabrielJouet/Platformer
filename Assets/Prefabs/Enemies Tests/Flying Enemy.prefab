@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2013692846279428839}
   m_Layer: 9
   m_Name: Flying Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,11 +147,12 @@ MonoBehaviour:
   _fieldOfSight: 5
   _eyePosition: {fileID: 1783919063540178816}
   _minDistanceWithPlayer: 0.8
+  _memoryTime: 0
   _speed: 0.8
   _voidCheckers: []
-  _currentProjectile: {fileID: 7381632820750499058, guid: 2d6d1525d041bfa4b96824f78a3cfe07,
-    type: 3}
-  _timeBetweenShots: 1
+  _bulletId: 2
+  _shotCooldown: 0.8
+  _shotPrecision: 10
 --- !u!1001 &5917642127190617207
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4052202263352508009}
   m_Layer: 9
   m_Name: FastEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,6 +154,9 @@ MonoBehaviour:
   _voidCheckers:
   - {fileID: 4856516682843968864}
   - {fileID: 4904630934861609710}
+  _bulletId: 2
+  _shotCooldown: 0.5
+  _shotPrecision: 15
   _isPatrolLimited: 0
   _patrolMagnitude: 0
 --- !u!1001 &598114812802835629
@@ -163,6 +166,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8237929323655309865}
     m_Modifications:
+    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
+        type: 3}
+      propertyPath: m_Name
+      value: Checker Left
+      objectReference: {fileID: 0}
+    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 992924579038053270, guid: e193ca0d454c06842b94055692e2f74a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -218,16 +231,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
-        type: 3}
-      propertyPath: m_Name
-      value: Checker Left
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e193ca0d454c06842b94055692e2f74a, type: 3}
 --- !u!4 &399551410398717755 stripped
@@ -255,6 +258,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8237929323655309865}
     m_Modifications:
+    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
+        type: 3}
+      propertyPath: m_Name
+      value: Checker Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 992924579038053270, guid: e193ca0d454c06842b94055692e2f74a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -310,16 +323,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
-        type: 3}
-      propertyPath: m_Name
-      value: Checker Right
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728400074706926380, guid: e193ca0d454c06842b94055692e2f74a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e193ca0d454c06842b94055692e2f74a, type: 3}
 --- !u!4 &215629676288100533 stripped
@@ -347,6 +350,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8237929323655309865}
     m_Modifications:
+    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
+        type: 3}
+      propertyPath: m_Name
+      value: Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5394873402182431735, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -400,16 +413,6 @@ PrefabInstance:
     - target: {fileID: 5394873402182431735, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
-        type: 3}
-      propertyPath: m_Name
-      value: Eye
-      objectReference: {fileID: 0}
-    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
-        type: 3}
-      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
