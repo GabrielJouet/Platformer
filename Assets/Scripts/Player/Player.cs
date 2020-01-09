@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
         }
 
-        if (Input.GetKeyDown("space") && ((_lowerBoxCollision && _rightBoxCollision) || (_lowerBoxCollision && _leftBoxCollision) || _rightBoxCollision || _leftBoxCollision || _lowerBoxCollision))
+        if (Input.GetKey("space") && (_lowerBoxCollision))
         {
             Jump();
         }
@@ -92,6 +92,12 @@ public class Player : MonoBehaviour
         else if (_rigidBody.velocity.y > 0 && !Input.GetButton("Jump"))
         {
             _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+        if ((_leftBoxCollision || _rightBoxCollision) && !_lowerBoxCollision)
+        {
+            _rigidBody.velocity = Vector2.zero;
+            _rigidBody.angularVelocity = 0;
+            _rigidBody.gravityScale = 1.3f;
         }
     }
 
