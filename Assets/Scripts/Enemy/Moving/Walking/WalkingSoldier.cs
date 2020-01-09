@@ -268,7 +268,7 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
 
     public void AttackPlayer()
     {
-        Projectile buffer = projectilePool.UseProjectile(bulletId);
+        Projectile buffer = projectilePool.UseProjectile(gameObject, bulletId);
 
         buffer.Restart();
         buffer.transform.position = transform.position;

@@ -222,5 +222,18 @@ public class Player : Entity
             _rightBoxCollision = true;
         }
     }
-}
 
+    public new void GetHit(GameObject emitter, float damage)
+    {
+        _health -= damage;
+
+        //If we don't have health anymore
+        if (_health <= 0f)
+        {
+            GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+            CameraFollow cameraFollow = camera.GetComponent<CameraFollow>();
+            cameraFollow.PlayerDied(emitter);
+            Destroy(gameObject);
+        }
+    }
+}
