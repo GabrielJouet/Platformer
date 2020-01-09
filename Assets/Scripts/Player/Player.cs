@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //for the gravity and speed of the player
     [SerializeField]
     private int _speed = 12;
     [SerializeField]
     private int _gravityScale = 25;
     private float _fallMultiplier = 2.5f;
     private float _lowJumpMultiplier = 2f;
+
+    //for the jump
     [SerializeField]
     private bool _isJumping = false;
     private bool _isFalling = false;
     private bool _hitGround = false;
     private bool _isRunning = false;
     private bool _jumpIsOver = true;
+    private float _jumpStartAltitude;
+    private float _jumpEndAltitude;
+    private float _jumpAmplitude;
 
+    //for the walljump
+    private bool _isGrabbingWall = false;
+    private int _wallJumpPower = 10000;
+    private bool _blockWallJump = false;
+
+    //for the flip
     private bool _facingRight = true;
 
-    private float _timeWhenSpaceDown = 0;
-    private float _timeWhenSpaceUp = 0;
-    private float _timeSpaceWasPressed = 0;
-
+    //to access the player's components
     private Rigidbody2D _rigidBody;
     private BoxCollider2D _boxCollider2D;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
+    //for the collisions
     [SerializeField]
     private bool _lowerBoxCollision = false;
     [SerializeField]
@@ -36,7 +46,6 @@ public class Player : MonoBehaviour
     private bool _leftBoxCollision = false;
     [SerializeField]
     private bool _rightBoxCollision = false;
-
     private int _nbLowerCollision = 0;
     private int _nbUpperCollision = 0;
     private int _nbLeftCollision = 0;
@@ -54,21 +63,41 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Moves the player left and right
         float horizontalDirection = Input.GetAxis("Horizontal");
+        float rawHorizontalDirection = Input.GetAxisRaw("Horizontal");
         if (horizontalDirection > 0f && !_rightBoxCollision)
         {
-            Flip(horizontalDirection);
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);          
         }
         else if (horizontalDirection < 0f && !_leftBoxCollision)
         {
-            Flip(horizontalDirection);
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
         }
+        Flip(rawHorizontalDirection);
 
-        if (Input.GetKey("space") && (_lowerBoxCollision))
+        //To make the player jumps depending on his situation 
+        if (Input.GetKey("space"))
         {
-            Jump();
+            if (_isGrabbingWall)
+            {
+                if (_leftBoxCollision)
+                {
+                    WallJump(1);
+                }
+                else
+                {
+                    WallJump(-1);
+                }
+            }
+            else if(_lowerBoxCollision)
+            {
+                Jump();
+                if (_leftBoxCollision || _rightBoxCollision)
+                {
+                    _blockWallJump = true;
+                }
+            }
         }
 
         CheckAnimation(horizontalDirection);
@@ -77,14 +106,22 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        _jumpStartAltitude = transform.position.y;
         _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed, transform.position);
         _isJumping = true;
         _jumpIsOver = false;
         this._animator.SetBool("isJumping", _isJumping);
     }
 
+    private void WallJump(int direction)
+    {
+        _rigidBody.AddForce(new Vector2(direction * _wallJumpPower, 10000));
+        Flip(direction);
+    }
+
     private void GravityHandler()
     {
+        //To make the jump more realistic
         if (_rigidBody.velocity.y < 0)
         {
             _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1) * Time.deltaTime;
@@ -93,11 +130,24 @@ public class Player : MonoBehaviour
         {
             _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.deltaTime;
         }
-        if ((_leftBoxCollision || _rightBoxCollision) && !_lowerBoxCollision)
+
+        //To make the player slide near a horizontal wall
+        if ((_leftBoxCollision || _rightBoxCollision) && !_lowerBoxCollision && !_isGrabbingWall && !_blockWallJump)
         {
-            _rigidBody.velocity = Vector2.zero;
-            _rigidBody.angularVelocity = 0;
-            _rigidBody.gravityScale = 1.3f;
+            _jumpEndAltitude = transform.position.y;
+            _jumpAmplitude = _jumpEndAltitude - _jumpStartAltitude;
+            if(_jumpAmplitude >= 0.5f)
+            {
+                _rigidBody.velocity = Vector2.zero;
+                _rigidBody.angularVelocity = 0;
+                _rigidBody.gravityScale = 1.3f;
+                _isGrabbingWall = true;
+            }
+        }
+        else
+        {
+            _rigidBody.gravityScale = 1;
+            _isGrabbingWall = false;
         }
     }
 
@@ -134,6 +184,7 @@ public class Player : MonoBehaviour
             this._animator.SetBool("isFalling", _isFalling);
             _hitGround = true;
             this._animator.SetBool("hitGround", _hitGround);
+            _blockWallJump = false;
         }
 
         if (direction >= 0.5f || direction <= -0.5f)
@@ -229,4 +280,3 @@ public class Player : MonoBehaviour
         }
     }
 }
-
