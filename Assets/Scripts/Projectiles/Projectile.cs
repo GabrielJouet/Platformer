@@ -53,8 +53,15 @@ public class Projectile : MonoBehaviour
 
         if (buffer.tag == "Player")
         {
+            Rigidbody2D playerRb2d = buffer.GetComponent<Rigidbody2D>();
+            playerRb2d.AddForce(Vector2.up * 15000 + Vector2.right * transform.up.x * 10000);
+
             Player playerScript = buffer.GetComponent<Player>();
             playerScript.GetHit(_emitter, _damageAmount);
+        }
+        else
+        {
+            _projectilePool.AddProjectileToList(this);
         }
     }
 }
