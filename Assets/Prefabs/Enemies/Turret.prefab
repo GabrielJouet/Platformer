@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2201647579206384393}
   - component: {fileID: 2201647579206384392}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 2201647579249848668}
   - component: {fileID: 5776812067833062756}
   - component: {fileID: 7838969710541894376}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Turret
   m_TagString: Enemy
   m_Icon: {fileID: 0}
