@@ -11,6 +11,8 @@ public class CombatController : MonoBehaviour
 	//Animator
 	private Animator animator;
 
+	private bool canHit = true;
+
 	private void Start()
 	{
 		spriteRenderer = GetComponentInParent<SpriteRenderer>();
@@ -21,7 +23,7 @@ public class CombatController : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetAxis("Fire1") > 0.5 && !hitCollider.enabled)
+		if (Input.GetAxis("Fire1") > 0.5 && canHit)
 		{
 			hitCollider.offset = new Vector2(IsGoingRight() * 0.15f, hitCollider.offset.y);
 			animator.SetTrigger("hit");
@@ -53,8 +55,11 @@ public class CombatController : MonoBehaviour
 
 	private IEnumerator TimeAttack()
 	{
+		canHit = false;
 		hitCollider.enabled = true;
-		yield return new WaitForSecondsRealtime(.32f);
+		yield return new WaitForSecondsRealtime(.04f);
 		hitCollider.enabled = false;
+		yield return new WaitForSecondsRealtime(.16f);
+		canHit = true;
 	}
 }
