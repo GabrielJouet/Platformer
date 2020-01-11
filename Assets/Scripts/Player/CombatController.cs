@@ -8,19 +8,23 @@ public class CombatController : MonoBehaviour
 	private SpriteRenderer spriteRenderer;
 	//Collider that will check if something is hit
 	private BoxCollider2D hitCollider;
+	//Animator
+	private Animator animator;
 
 	private void Start()
 	{
 		spriteRenderer = GetComponentInParent<SpriteRenderer>();
 		hitCollider = GetComponent<BoxCollider2D>();
 		hitCollider.enabled = false;
+		animator = GetComponentInParent<Animator>();
 	}
 
 	private void Update()
 	{
-		if (Input.GetAxis("Fire1") > 0.5)
+		if (Input.GetAxis("Fire1") > 0.5 && !hitCollider.enabled)
 		{
 			hitCollider.offset = new Vector2(IsGoingRight() * 0.15f, hitCollider.offset.y);
+			animator.SetTrigger("hit");
 			StartCoroutine(TimeAttack());
 		}
 	}
@@ -50,7 +54,7 @@ public class CombatController : MonoBehaviour
 	private IEnumerator TimeAttack()
 	{
 		hitCollider.enabled = true;
-		yield return new WaitForSecondsRealtime(0.5f);
+		yield return new WaitForSecondsRealtime(.32f);
 		hitCollider.enabled = false;
 	}
 }
