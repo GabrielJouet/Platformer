@@ -26,6 +26,7 @@ public class CombatController : MonoBehaviour
 		if (Input.GetAxis("Fire1") > 0.5 && canHit)
 		{
 			hitCollider.offset = new Vector2(IsGoingRight() * 0.15f, hitCollider.offset.y);
+			animator.SetFloat("RunAttackType", Random.Range(0, 2));
 			animator.SetTrigger("hit");
 			StartCoroutine(TimeAttack());
 		}
