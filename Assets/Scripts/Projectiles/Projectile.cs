@@ -9,8 +9,11 @@ public class Projectile : MonoBehaviour
     private float _speed;
     [SerializeField]
     private float _livingTime;
+    [SerializeField]
+    private float _damageAmount;
 
     private ProjectilePool _projectilePool;
+    private GameObject _emitter;
 
     private void Start()
     {
@@ -27,14 +30,7 @@ public class Projectile : MonoBehaviour
 		StartCoroutine(FadeOut());
 	}
 
-	public void Restart(float livingTime, float speed)
-    {
-		this._livingTime = livingTime;
-		this._speed = speed;
-        StartCoroutine(FadeOut());
-    }
-
-	public int GetId()
+    public int GetId()
 	{
 		return this._id;
 	}
@@ -45,6 +41,11 @@ public class Projectile : MonoBehaviour
         _projectilePool.AddProjectileToList(this);
     }
 
+    public void SetEmitter(GameObject emitter)
+    {
+        this._emitter = emitter;
+    }
+
     //TODO collision with the player
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -52,7 +53,15 @@ public class Projectile : MonoBehaviour
 
         if (buffer.tag == "Player")
         {
-            buffer.SetActive(false);
+            Rigidbody2D playerRb2d = buffer.GetComponent<Rigidbody2D>();
+            playerRb2d.AddForce(Vector2.up * 10000 + Vector2.right * transform.up.x * 6000);
+
+            Player playerScript = buffer.GetComponent<Player>();
+            playerScript.GetHit(_emitter, _damageAmount);
+        }
+        else
+        {
+            _projectilePool.AddProjectileToList(this);
         }
     }
 }

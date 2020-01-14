@@ -26,36 +26,7 @@ public class ProjectilePool : MonoBehaviour
 		return buffer;
 	}
 
-	//Method used when we want a projectile, using a prefab template
-	public Projectile UseProjectile(GameObject projectilePrefab)
-	{
-		GameObject gameObjectBuffer = null;
-		Projectile projectileBuffer = null;
-
-		foreach (Projectile projectile in _allProjectiles)
-		{
-			if (projectilePrefab.GetComponent<Projectile>().GetId() == projectile.GetId())
-			{
-				projectileBuffer = projectile;
-			}
-		}
-
-		if (projectileBuffer != null)
-		{
-			_allProjectiles.Remove(projectileBuffer);
-			projectileBuffer.gameObject.SetActive(true);
-		}
-		else
-		{
-			gameObjectBuffer = Instantiate(projectilePrefab);
-			gameObjectBuffer.SetActive(true);
-			projectileBuffer = gameObjectBuffer.GetComponent<Projectile>();
-		}
-
-		return projectileBuffer;
-	}
-
-	public Projectile UseProjectile(int bulletId)
+	public Projectile UseProjectile(GameObject requester, int bulletId)
 	{
 		GameObject gameObjectBuffer = null;
 		Projectile projectileBuffer = null;
@@ -80,6 +51,7 @@ public class ProjectilePool : MonoBehaviour
 			projectileBuffer = gameObjectBuffer.GetComponent<Projectile>();
 		}
 
+		projectileBuffer.SetEmitter(requester);
 		return projectileBuffer;
 	}
 

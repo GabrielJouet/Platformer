@@ -46,7 +46,23 @@ public class Entity : MonoBehaviour
         }
     }
 
+    public void GetHit(GameObject emitter)
+    {
+        //We destroy the object
+        Destroy(gameObject);
+    }
 
+    public void GetHit(GameObject emitter, float damage)
+    {
+        _health -= damage;
+
+        //If we don't have health anymore
+        if (_health <= 0f)
+        {
+            //We destroy the object
+            Destroy(gameObject);
+        }
+    }
 
     //Method used when we get hit (damage not given)
     public void GetHit()
