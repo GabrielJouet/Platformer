@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     //for the gravity and speed of the player
     [SerializeField]
@@ -289,6 +289,20 @@ public class Player : MonoBehaviour
         else
         {
             _rightBoxCollision = true;
+        }
+    }
+
+    public new void GetHit(GameObject emitter, float damage)
+    {
+        _health -= damage;
+
+        //If we don't have health anymore
+        if (_health <= 0f)
+        {
+            GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+            CameraFollow cameraFollow = camera.GetComponent<CameraFollow>();
+            cameraFollow.PlayerDied(emitter);
+            Destroy(gameObject);
         }
     }
 }

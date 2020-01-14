@@ -42,6 +42,19 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
             this._shotPrecision = value;
         }
     }
+    [SerializeField]
+    protected float _shotRange;
+    public float shotRange
+    {
+        get
+        {
+            return this._shotRange;
+        }
+        set
+        {
+            this._shotRange = value;
+        }
+    }
 
     protected ProjectilePool _projectilePool;
     public ProjectilePool projectilePool
@@ -116,7 +129,7 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
 
     private void Update()
     {
-        if (_isAttackingPlayer && _canShoot)
+        if (_chasingPlayer != null && _isAttackingPlayer && _canShoot)
         {
             AttackPlayer();
         }
@@ -125,7 +138,7 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
     private void FixedUpdate()
     {
         //If the enemy does already chase someone
-        if (_isChasingPlayer)
+        if (_chasingPlayer != null)
         {
             patrolState = 0;
 
@@ -138,8 +151,6 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
             //If the enemy is too far enough from the player
             if (distanceWithPlayer > _minDistanceWithPlayer + _speed * Time.fixedDeltaTime)
             {
-                _isAttackingPlayer = false;
-
                 //The enemy speeds up
                 _speed = _speedMax * 2f;
                 
@@ -152,11 +163,17 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
                 //The enemy speed is reset
                 _speed = _speedMax;
 
-                //The enemy can attack the player (close combat only TO CHANGE)
-                _isAttackingPlayer = true;
-
                 //And it will moves backward
                 Move(FindRetreatPosition().x);
+            }
+
+            if (distanceWithPlayer < _shotRange)
+            {
+                _isAttackingPlayer = true;
+            }
+            else
+            {
+                _isAttackingPlayer = false;
             }
         }
         else
@@ -251,7 +268,7 @@ public class WalkingSoldier : WalkingEnemy, IPatrollable, IShootable
 
     public void AttackPlayer()
     {
-        Projectile buffer = projectilePool.UseProjectile(bulletId);
+        Projectile buffer = projectilePool.UseProjectile(gameObject, bulletId);
 
         buffer.Restart();
         buffer.transform.position = transform.position;

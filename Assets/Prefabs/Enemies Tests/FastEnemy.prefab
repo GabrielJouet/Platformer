@@ -145,11 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec292d624ee9af4eb0ad584e78d6c47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 0
+  _health: 5
   _fieldOfSight: 3
   _eyePosition: {fileID: 3455286428614529008}
   _minDistanceWithPlayer: 0.75
-  _memoryTime: 0
+  _memoryTime: 2
   _speed: 2
   _voidCheckers:
   - {fileID: 4856516682843968864}
@@ -157,6 +157,7 @@ MonoBehaviour:
   _bulletId: 2
   _shotCooldown: 0.5
   _shotPrecision: 15
+  _shotRange: 3
   _isPatrolLimited: 0
   _patrolMagnitude: 0
 --- !u!1001 &598114812802835629

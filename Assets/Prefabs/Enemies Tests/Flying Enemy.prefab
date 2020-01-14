@@ -143,16 +143,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136aa34b19ce3474a9b3e7b8368df712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 0
+  _health: 5
   _fieldOfSight: 5
   _eyePosition: {fileID: 1783919063540178816}
   _minDistanceWithPlayer: 0.8
-  _memoryTime: 0
+  _memoryTime: 2
   _speed: 0.8
   _voidCheckers: []
   _bulletId: 2
   _shotCooldown: 0.8
   _shotPrecision: 10
+  _shotRange: 2
 --- !u!1001 &5917642127190617207
 PrefabInstance:
   m_ObjectHideFlags: 0

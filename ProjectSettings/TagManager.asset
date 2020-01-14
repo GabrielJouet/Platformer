@@ -17,9 +17,9 @@ TagManager:
   - 
   - 
   - Wall
-  - Living
-  - 
-  - 
+  - Enemy
+  - Projectile
+  - Player
   - 
   - 
   - 

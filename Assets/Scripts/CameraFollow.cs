@@ -18,10 +18,13 @@ public class CameraFollow : MonoBehaviour
 
     //Vector that will store the cumulated moves
     private Vector3 _addedMoves;
+    //Offset vector with the player
+    private Vector3 offset;
 
     private void Start()
     {
         //Initializing some values
+        offset = new Vector3(0, 0.5f, -50);
         transform.position = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y + 0.5f, -50);
         _addedMoves = new Vector3();
     }
@@ -29,7 +32,7 @@ public class CameraFollow : MonoBehaviour
     private void FixedUpdate()
     {
         //New position of the camera
-        Vector3 newPosition = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y + 0.5f, -50);
+        Vector3 newPosition = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y, 0) + offset;
         //Vector to move to access the desired position
         Vector3 moveVector = newPosition - transform.position;
         //We store add this vector to the cumulated move vector
@@ -60,7 +63,13 @@ public class CameraFollow : MonoBehaviour
             Vector3 randomVector = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0) * amplitude;
             transform.position = Vector3.MoveTowards(transform.position, randomVector, amplitude);
             yield return new WaitForSecondsRealtime(speed);
-            transform.position = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y + 0.5f, -50);
+            transform.position = new Vector3(_objectToFollow.transform.position.x, _objectToFollow.transform.position.y, 0) + offset;
         }
+    }
+
+    public void PlayerDied(GameObject killer)
+    {
+        offset = new Vector3(0, 0, -50);
+        _objectToFollow = killer;
     }
 }
