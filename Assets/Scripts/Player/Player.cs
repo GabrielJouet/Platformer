@@ -25,8 +25,12 @@ public class Player : MonoBehaviour
 
     //for the walljump
     private bool _isGrabbingWall = false;
-    private int _wallJumpPower = 10000;
+    private int _wallJumpHorizontalPower = 10000;
+    private int _wallJumpVerticalPower = 20000;
+    private float _wallJumpCooldown = 0.2f;
     private bool _blockWallJump = false;
+    private bool _canWallJump = true;
+
 
     //for the flip
     private bool _facingRight = true;
@@ -79,7 +83,7 @@ public class Player : MonoBehaviour
         //To make the player jumps depending on his situation 
         if (Input.GetKey("space"))
         {
-            if (_isGrabbingWall)
+            if (_isGrabbingWall && _canWallJump)
             {
                 if (_leftBoxCollision)
                 {
@@ -115,8 +119,9 @@ public class Player : MonoBehaviour
 
     private void WallJump(int direction)
     {
-        _rigidBody.AddForce(new Vector2(direction * _wallJumpPower, 10000));
+        _rigidBody.AddForce(new Vector2(direction * _wallJumpHorizontalPower, _wallJumpVerticalPower));
         Flip(direction);
+        StartCoroutine(WallJumpCooldown());
     }
 
     private void GravityHandler()
@@ -197,6 +202,13 @@ public class Player : MonoBehaviour
             _isRunning = false;
             this._animator.SetBool("isRunning", _isRunning);
         }
+    }
+
+    private IEnumerator WallJumpCooldown()
+    {
+        _canWallJump = false;
+        yield return new WaitForSeconds(_wallJumpCooldown);
+        _canWallJump = true;
     }
 
     public void SetLowerBoxCollision(bool boolean)
