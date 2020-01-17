@@ -18,7 +18,6 @@ public class Player : Entity
     private bool _isFalling = false;
     private bool _hitGround = false;
     private bool _isRunning = false;
-    private bool _jumpIsOver = true;
     private float _jumpStartAltitude;
     private float _jumpEndAltitude;
     private float _jumpAmplitude;
@@ -113,7 +112,6 @@ public class Player : Entity
         _jumpStartAltitude = transform.position.y;
         _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed, transform.position);
         _isJumping = true;
-        _jumpIsOver = false;
         this._animator.SetBool("isJumping", _isJumping);
     }
 
