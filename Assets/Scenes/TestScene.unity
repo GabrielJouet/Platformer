@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 157961641}
   - component: {fileID: 157961644}
   - component: {fileID: 157961645}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Swarmer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ PrefabInstance:
     - target: {fileID: 8237929323655309865, guid: a6153699a47fe6940b73a587c7ac3e83,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 383.5795
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8237929323655309865, guid: a6153699a47fe6940b73a587c7ac3e83,
         type: 3}
@@ -540,7 +540,7 @@ PrefabInstance:
     - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5394873402182431735, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}

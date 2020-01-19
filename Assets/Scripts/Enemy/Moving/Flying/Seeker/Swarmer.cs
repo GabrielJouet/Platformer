@@ -13,4 +13,16 @@ public class Swarmer : Seeker
 	{
 		FollowPlayer();
 	}
+
+	new void OnCollisionEnter2D(Collision2D collision)
+	{
+		GameObject buffer = collision.gameObject;
+
+		if (buffer == _chasingPlayer)
+		{
+			buffer.GetComponent<Player>().GetHit(null, 10);
+		}
+
+		GetHit();
+	}
 }
