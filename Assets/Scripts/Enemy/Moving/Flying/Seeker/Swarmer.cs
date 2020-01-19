@@ -20,7 +20,7 @@ public class Swarmer : Seeker
 
 		if (buffer == _chasingPlayer)
 		{
-			buffer.GetComponent<Player>().GetHit(null, 10);
+			buffer.GetComponent<Player>().GetHit(null, _damageAmount);
 		}
 
 		GetHit();

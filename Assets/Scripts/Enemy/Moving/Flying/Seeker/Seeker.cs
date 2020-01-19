@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Seeker : FlyingEnemy
 {
+	[SerializeField]
+	protected float _damageAmount;
+
 	//Common function for all seeker projectiles. Here the object will track the player
 	protected void FollowPlayer()
 	{
