@@ -97,5 +97,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToFollow: {fileID: 0}
-  _frameValue: 5
-  _cameraSpeed: 0.15
+  _frameValue: 7.5
+  _cameraSpeed: 0.08
