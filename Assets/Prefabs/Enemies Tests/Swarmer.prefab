@@ -100,7 +100,7 @@ MonoBehaviour:
   _fieldOfSight: 2
   _eyePosition: {fileID: 8016572537139505179}
   _minDistanceWithPlayer: 1
-  _memoryTime: 0
+  _memoryTime: 3
   _speed: 4
   _voidCheckers: []
   _damageAmount: 2
@@ -158,16 +158,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2710857983560647579}
     m_Modifications:
-    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
-        type: 3}
-      propertyPath: m_Name
-      value: Eye
-      objectReference: {fileID: 0}
-    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5394873402182431735, guid: 707e4828398ec244dbffd0bc9afcd3fa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -222,6 +212,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
+        type: 3}
+      propertyPath: m_Name
+      value: Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348209963643991558, guid: 707e4828398ec244dbffd0bc9afcd3fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 707e4828398ec244dbffd0bc9afcd3fa, type: 3}

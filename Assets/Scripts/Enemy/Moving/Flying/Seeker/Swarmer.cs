@@ -4,14 +4,35 @@ using UnityEngine;
 
 public class Swarmer : Seeker
 {
+	private bool _isHiding = true;
+	private SpriteRenderer _spriteRenderer;
+
 	void Start()
 	{
+		_spriteRenderer = GetComponent<SpriteRenderer>();
 		StartCoroutine(WatchOutPlayer());
 	}
 
 	void FixedUpdate()
 	{
-		FollowPlayer();
+		if (_chasingPlayer != null)
+		{
+			_isHiding = false;
+			FollowPlayer();
+		}
+		else if (!_stillRememberPlayer)
+		{
+			_isHiding = true;
+		}
+
+		if (_isHiding && _spriteRenderer.enabled)
+		{
+			_spriteRenderer.enabled = false;
+		}
+		if (!_isHiding && !_spriteRenderer.enabled)
+		{
+			_spriteRenderer.enabled = true;
+		}
 	}
 
 	new void OnCollisionEnter2D(Collision2D collision)
