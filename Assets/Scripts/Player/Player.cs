@@ -9,8 +9,8 @@ public class Player : Entity
     private int _speed = 12;
     [SerializeField]
     private int _gravityScale = 25;
-    private float _fallMultiplier = 2.5f;
-    private float _lowJumpMultiplier = 2f;
+    private float _fallMultiplier = 1.5f;
+    private float _lowJumpMultiplier = 4f;
 
     //for the jump
     [SerializeField]
@@ -71,7 +71,7 @@ public class Player : Entity
         float rawHorizontalDirection = Input.GetAxisRaw("Horizontal");
         if (horizontalDirection > 0f && !_rightBoxCollision)
         {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);          
+            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
         }
         else if (horizontalDirection < 0f && !_leftBoxCollision)
         {
@@ -79,7 +79,7 @@ public class Player : Entity
         }
         Flip(rawHorizontalDirection);
 
-        //To make the player jumps depending on his situation 
+        //To make the player jumps depending on his situation
         if (Input.GetKey("space"))
         {
             if (_isGrabbingWall && _canWallJump)
