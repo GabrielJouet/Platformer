@@ -17,21 +17,7 @@ public class Swarmer : Seeker
 	{
 		if (_chasingPlayer != null)
 		{
-			_isHiding = false;
 			FollowPlayer();
-		}
-		else if (!_stillRememberPlayer)
-		{
-			_isHiding = true;
-		}
-
-		if (_isHiding && _spriteRenderer.enabled)
-		{
-			_spriteRenderer.enabled = false;
-		}
-		if (!_isHiding && !_spriteRenderer.enabled)
-		{
-			_spriteRenderer.enabled = true;
 		}
 	}
 
