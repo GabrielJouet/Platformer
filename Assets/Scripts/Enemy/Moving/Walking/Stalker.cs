@@ -31,6 +31,10 @@ public class Stalker : WalkingEnemy, IShootable
       }
   }
   [SerializeField]
+  protected float _burstCooldown;
+  [SerializeField]
+  protected int _burstLength;
+  [SerializeField]
   protected float _shotPrecision;
   public float shotPrecision
   {
@@ -92,7 +96,7 @@ public class Stalker : WalkingEnemy, IShootable
 
       if (_isAttackingPlayer && _canShoot)
       {
-        AttackPlayer();
+        StartCoroutine(ShootBurst());
       }
 
       if (distanceWithPlayer > _minDistanceWithPlayer + _speed * Time.fixedDeltaTime)
@@ -140,9 +144,22 @@ public class Stalker : WalkingEnemy, IShootable
 
   public IEnumerator StartCooldown()
   {
-      this._canShoot = false;
-      yield return new WaitForSecondsRealtime(shotCooldown);
-      this._canShoot = true;
+    yield return new WaitForSecondsRealtime(shotCooldown);
+  }
+
+  public IEnumerator ShootBurst()
+  {
+    this._canShoot = false;
+    Vector3 direction = (_chasingPlayer.transform.position- transform.position).normalized;
+
+    for (int i = 1; i <= _burstLength; i++)
+    {
+      AttackPlayerWithBurst( direction );
+      yield return new WaitForSecondsRealtime(_burstCooldown);
+    }
+
+    yield return new WaitForSecondsRealtime(shotCooldown);
+    this._canShoot = true;
   }
 
   public void AttackPlayer()
@@ -153,7 +170,15 @@ public class Stalker : WalkingEnemy, IShootable
       buffer.transform.position = transform.position;
       buffer.transform.up = (_chasingPlayer.transform.position - transform.position).normalized;
       buffer.transform.Rotate(buffer.transform.forward, Random.Range(-shotPrecision, shotPrecision));
+  }
 
-      StartCoroutine("StartCooldown");
+  public void AttackPlayerWithBurst(Vector3 direction)
+  {
+      Projectile buffer = projectilePool.UseProjectile(gameObject, bulletId);
+
+      buffer.Restart();
+      buffer.transform.position = transform.position;
+      buffer.transform.up = direction;
+      buffer.transform.Rotate(buffer.transform.forward, Random.Range(-shotPrecision, shotPrecision));
   }
 }

@@ -155,7 +155,9 @@ MonoBehaviour:
   - {fileID: 4856516682843968864}
   - {fileID: 4904630934861609710}
   _bulletId: 2
-  _shotCooldown: 0.3
+  _shotCooldown: 0.6
+  _burstCooldown: 0.2
+  _burstLength: 3
   _shotPrecision: 10
   _shotRange: 2
 --- !u!1001 &598114812802835629
