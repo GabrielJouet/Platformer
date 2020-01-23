@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 2201647579249848669}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
   - {fileID: 2201647579206384393}
   m_Father: {fileID: 0}
@@ -183,9 +183,11 @@ MonoBehaviour:
   _minDistanceWithPlayer: 0
   _memoryTime: 0
   _bulletId: 1
-  _shotCooldown: 0.8
-  _shotPrecision: 5
+  _shotCooldown: 1
+  _shotPrecision: 10
   _shotRange: 3
+  _burstCooldown: 0.2
+  _burstLength: 5
 --- !u!70 &7838969710541894376
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
