@@ -29,6 +29,7 @@ public class Player : Entity
     private float _wallJumpCooldown = 0.2f;
     private bool _blockWallJump = false;
     private bool _canWallJump = true;
+    private bool _isWallJumpFreezingInputs = false;
 
 
     //for the flip
@@ -66,18 +67,23 @@ public class Player : Entity
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Moves the player left and right
-        float horizontalDirection = Input.GetAxis("Horizontal");
-        float rawHorizontalDirection = Input.GetAxisRaw("Horizontal");
-        if (horizontalDirection > 0f && !_rightBoxCollision)
+        if (!_isWallJumpFreezingInputs)
         {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
+          //Moves the player left and right
+          float horizontalDirection = Input.GetAxis("Horizontal");
+          float rawHorizontalDirection = Input.GetAxisRaw("Horizontal");
+          if (horizontalDirection > 0f && !_rightBoxCollision)
+          {
+              transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
+          }
+          else if (horizontalDirection < 0f && !_leftBoxCollision)
+          {
+              transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
+          }
+          Flip(rawHorizontalDirection);
+
+          CheckAnimation(horizontalDirection);
         }
-        else if (horizontalDirection < 0f && !_leftBoxCollision)
-        {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
-        }
-        Flip(rawHorizontalDirection);
 
         //To make the player jumps depending on his situation
         if (Input.GetKey("space"))
@@ -103,7 +109,6 @@ public class Player : Entity
             }
         }
 
-        CheckAnimation(horizontalDirection);
         GravityHandler();
     }
 
@@ -205,7 +210,10 @@ public class Player : Entity
     private IEnumerator WallJumpCooldown()
     {
         _canWallJump = false;
-        yield return new WaitForSeconds(_wallJumpCooldown);
+        _isWallJumpFreezingInputs = true;
+        yield return new WaitForSeconds(_wallJumpCooldown * .75f);
+        _isWallJumpFreezingInputs = false;
+        yield return new WaitForSeconds(_wallJumpCooldown * .25f);
         _canWallJump = true;
     }
 
