@@ -72,13 +72,11 @@ public class Player : Entity
           //Moves the player left and right
           float horizontalDirection = Input.GetAxis("Horizontal");
           float rawHorizontalDirection = Input.GetAxisRaw("Horizontal");
-          if (horizontalDirection > 0f && !_rightBoxCollision)
+          if ( (horizontalDirection > 0f && !_rightBoxCollision) || (horizontalDirection < 0f && !_leftBoxCollision) )
           {
-              transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
-          }
-          else if (horizontalDirection < 0f && !_leftBoxCollision)
-          {
-              transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * _speed);
+            Vector2 newVelocity = _rigidBody.velocity;
+            newVelocity.x = Input.GetAxis("Horizontal") * _speed;
+            _rigidBody.velocity = newVelocity;
           }
           Flip(rawHorizontalDirection);
 
