@@ -4,309 +4,167 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    //for the gravity and speed of the player
-    [SerializeField]
-    private int _speed = 12;
-    [SerializeField]
-    private int _gravityScale = 25;
-    private float _fallMultiplier = 1.5f;
-    private float _lowJumpMultiplier = 4f;
+  // Player speed
+  public float _speed = 5f;
 
-    //for the jump
-    [SerializeField]
-    private bool _isJumping = false;
-    private bool _isFalling = false;
-    private bool _hitGround = false;
-    private bool _isRunning = false;
-    private float _jumpStartAltitude;
-    private float _jumpEndAltitude;
-    private float _jumpAmplitude;
+  // Can the player jump
+  bool _canJump = true;
+  // Can the player walljump
+  bool _canWallJump = false;
+  // Is the player colliding with a wall
+  bool[] _collidingSide = new bool[2];
+  // Is the player grabbing the wall
+  bool _isGrabbingWall = false;
 
-    //for the walljump
-    private bool _isGrabbingWall = false;
-    private int _wallJumpHorizontalPower = 10000;
-    private int _wallJumpVerticalPower = 20000;
-    private float _wallJumpCooldown = 0.2f;
-    private bool _blockWallJump = false;
-    private bool _canWallJump = true;
-    private bool _isWallJumpFreezingInputs = false;
+  // Stuck inputs
+  bool _inputsStuck = false;
 
+  float _baseGravityScale;
 
-    //for the flip
-    private bool _facingRight = true;
+  Rigidbody2D _rb2d;
 
-    //to access the player's components
-    private Rigidbody2D _rigidBody;
-    private BoxCollider2D _boxCollider2D;
-    private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
+  // Sprite and animation handling
+  SpriteRenderer _spriteRenderer;
+  Animator _animator;
 
-    //for the collisions
-    [SerializeField]
-    private bool _lowerBoxCollision = false;
-    [SerializeField]
-    private bool _upperBoxCollision = false;
-    [SerializeField]
-    private bool _leftBoxCollision = false;
-    [SerializeField]
-    private bool _rightBoxCollision = false;
-    private int _nbLowerCollision = 0;
-    private int _nbUpperCollision = 0;
-    private int _nbLeftCollision = 0;
-    private int _nbRightCollision = 0;
+  public void AllowJump()
+  {
+    _animator.SetTrigger("land");
+    _canJump = true;
+    _canWallJump = true;
+  }
 
-    // Start is called before the first frame update
-    void Start()
+  public void DeclareColliding(int id, bool value)
+  {
+    _canWallJump = true;
+    _collidingSide[id] = value;
+  }
+
+  void Start()
+  {
+    _rb2d = GetComponent<Rigidbody2D>();
+    _baseGravityScale = _rb2d.gravityScale;
+
+    _spriteRenderer = GetComponent<SpriteRenderer>();
+    _animator = GetComponent<Animator>();
+  }
+
+  void FixedUpdate()
+  {
+    _rb2d.gravityScale = _baseGravityScale;
+
+    if (!_canJump && (_collidingSide[0] || _collidingSide[1]))
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _rigidBody = GetComponent<Rigidbody2D>();
-        _boxCollider2D = GetComponent<BoxCollider2D>();
-        _animator = GetComponent<Animator>();
+      if (_rb2d.velocity.y > 0)
+      {
+        ChangeVerticalSpeed(0f);
+      }
+      else
+      {
+        ChangeVerticalSpeed(-.5f);
+      }
+      _isGrabbingWall = true;
+    }
+    else
+    {
+      _isGrabbingWall = false;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // Handling jump
+    if (Input.GetKey("space"))
     {
-        if (!_isWallJumpFreezingInputs)
+      if (!_isGrabbingWall)
+      {
+        if (!_inputsStuck)
         {
-          //Moves the player left and right
-          float horizontalDirection = Input.GetAxis("Horizontal");
-          float rawHorizontalDirection = Input.GetAxisRaw("Horizontal");
-          if ( (horizontalDirection > 0f && !_rightBoxCollision) || (horizontalDirection < 0f && !_leftBoxCollision) )
+          _rb2d.gravityScale = .5f * _baseGravityScale;
+        }
+      }
+      else
+      {
+        if (_canWallJump)
+        {
+          StartCoroutine(StuckInputs(.25f));
+          _canWallJump = false;
+
+          ChangeVerticalSpeed(0f);
+          _rb2d.AddForce(Vector2.up * _rb2d.mass * 700);
+
+          if (_collidingSide[0])
           {
-            Vector2 newVelocity = _rigidBody.velocity;
-            newVelocity.x = Input.GetAxis("Horizontal") * _speed;
-            _rigidBody.velocity = newVelocity;
-          }
-          Flip(rawHorizontalDirection);
-
-          CheckAnimation(horizontalDirection);
-        }
-
-        //To make the player jumps depending on his situation
-        if (Input.GetKey("space"))
-        {
-            if (_isGrabbingWall && _canWallJump)
-            {
-                if (_leftBoxCollision)
-                {
-                    WallJump(1);
-                }
-                else
-                {
-                    WallJump(-1);
-                }
-            }
-            else if(_lowerBoxCollision)
-            {
-                Jump();
-                if (_leftBoxCollision || _rightBoxCollision)
-                {
-                    _blockWallJump = true;
-                }
-            }
-        }
-
-        GravityHandler();
-    }
-
-    private void Jump()
-    {
-        _jumpStartAltitude = transform.position.y;
-        _rigidBody.AddForceAtPosition(transform.up * _gravityScale * _speed, transform.position);
-        _isJumping = true;
-        this._animator.SetBool("isJumping", _isJumping);
-    }
-
-    private void WallJump(int direction)
-    {
-        _rigidBody.AddForce(new Vector2(direction * _wallJumpHorizontalPower, _wallJumpVerticalPower));
-        Flip(direction);
-        StartCoroutine(WallJumpCooldown());
-    }
-
-    private void GravityHandler()
-    {
-        //To make the jump more realistic
-        if (_rigidBody.velocity.y < 0)
-        {
-            _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1) * Time.deltaTime;
-        }
-        else if (_rigidBody.velocity.y > 0 && !Input.GetButton("Jump"))
-        {
-            _rigidBody.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.deltaTime;
-        }
-
-        //To make the player slide near a horizontal wall
-        if ((_leftBoxCollision || _rightBoxCollision) && !_lowerBoxCollision && !_isGrabbingWall && !_blockWallJump)
-        {
-            _jumpEndAltitude = transform.position.y;
-            _jumpAmplitude = _jumpEndAltitude - _jumpStartAltitude;
-            if(_jumpAmplitude >= 0.5f)
-            {
-                _rigidBody.velocity = Vector2.zero;
-                _rigidBody.angularVelocity = 0;
-                _rigidBody.gravityScale = 1.3f;
-                _isGrabbingWall = true;
-            }
-        }
-        else
-        {
-            _rigidBody.gravityScale = 1;
-            _isGrabbingWall = false;
-        }
-    }
-
-    //Flips the player depending on it's horizontal direction
-    private void Flip(float direction)
-    {
-        if (direction > 0 && !_facingRight)
-        {
-            _facingRight = !_facingRight;
-            _spriteRenderer.flipX = false;
-        }
-        if (direction < 0 && _facingRight)
-        {
-            _facingRight = !_facingRight;
+            _rb2d.AddForce(Vector2.left * _rb2d.mass * 400);
             _spriteRenderer.flipX = true;
+          }
+          else if (_collidingSide[1])
+          {
+            _rb2d.AddForce(Vector2.right * _rb2d.mass * 400);
+            _spriteRenderer.flipX = false;
+          }
         }
+      }
+
+      if (_canJump && _rb2d.velocity.y >= 0)
+      {
+        _animator.SetTrigger("jump");
+        _canJump = false;
+        _rb2d.AddForce(Vector2.up * _rb2d.mass * 500);
+      }
     }
 
-    //Animation handler
-    private void CheckAnimation(float direction)
+    // Handling horizontal movement
+    if (!_inputsStuck)
     {
-        _hitGround = false;
-        this._animator.SetBool("hitGround", _hitGround);
-        if (this._rigidBody.velocity.y < -0.2f )
-        {
-            _isJumping = false;
-            this._animator.SetBool("isJumping", _isJumping);
-            _isFalling = true;
-            this._animator.SetBool("isFalling", _isFalling);
-        }
-        if (_lowerBoxCollision && _isFalling)
-        {
-            _isFalling = false;
-            this._animator.SetBool("isFalling", _isFalling);
-            _hitGround = true;
-            this._animator.SetBool("hitGround", _hitGround);
-            _blockWallJump = false;
-        }
+      float horizontalInputValue = Input.GetAxis("Horizontal");
 
-        if (direction >= 0.5f || direction <= -0.5f)
-        {
-            _isRunning = true;
-            this._animator.SetBool("isRunning", _isRunning);
-        }
-        else if(direction <= 0.5f && direction >= -0.5f)
-        {
-            _isRunning = false;
-            this._animator.SetBool("isRunning", _isRunning);
-        }
+      if (horizontalInputValue > 0)
+      {
+        _spriteRenderer.flipX = false;
+      }
+      else if (horizontalInputValue < 0)
+      {
+        _spriteRenderer.flipX = true;
+      }
+
+      Vector2 newVelocity = _rb2d.velocity;
+      newVelocity.x = _speed * horizontalInputValue;
+      _rb2d.velocity = newVelocity;
+
+      if ( Mathf.Abs(_rb2d.velocity.x) > 0 )
+      {
+        _animator.SetBool("isRunning", true);
+      }
+      else
+      {
+        _animator.SetBool("isRunning", false);
+      }
     }
+  }
 
-    private IEnumerator WallJumpCooldown()
+  void ChangeVerticalSpeed(float newSpeed)
+  {
+    Vector2 newVelocity = _rb2d.velocity;
+    newVelocity.y = newSpeed;
+    _rb2d.velocity = newVelocity;
+  }
+
+  IEnumerator StuckInputs(float time)
+  {
+    _inputsStuck = true;
+    yield return new WaitForSeconds(time);
+    _inputsStuck = false;
+  }
+
+  public new void GetHit(GameObject emitter, float damage)
+  {
+    _health -= damage;
+
+    //If we don't have health anymore
+    if (_health <= 0f)
     {
-        _canWallJump = false;
-        _isWallJumpFreezingInputs = true;
-        yield return new WaitForSeconds(_wallJumpCooldown * .75f);
-        _isWallJumpFreezingInputs = false;
-        yield return new WaitForSeconds(_wallJumpCooldown * .25f);
-        _canWallJump = true;
+      GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+      CameraFollow cameraFollow = camera.GetComponent<CameraFollow>();
+      cameraFollow.PlayerDied(emitter);
+      Destroy(gameObject);
     }
-
-    public void SetLowerBoxCollision(bool boolean)
-    {
-        if (boolean)
-        {
-            _nbLowerCollision++;
-        }
-        else
-        {
-            _nbLowerCollision--;
-        }
-
-        if (_nbLowerCollision == 0)
-        {
-            _lowerBoxCollision = false;
-        }
-        else
-        {
-            _lowerBoxCollision = true;
-        }
-    }
-    public void SetUpperBoxCollision(bool boolean)
-    {
-        if (boolean)
-        {
-            _nbUpperCollision++;
-        }
-        else
-        {
-            _nbUpperCollision--;
-        }
-
-        if (_nbUpperCollision == 0)
-        {
-            _upperBoxCollision = false;
-        }
-        else
-        {
-            _upperBoxCollision = true;
-        }
-    }
-    public void SetLeftBoxCollision(bool boolean)
-    {
-        if (boolean)
-        {
-            _nbLeftCollision++;
-        }
-        else
-        {
-            _nbLeftCollision--;
-        }
-
-        if (_nbLeftCollision == 0)
-        {
-            _leftBoxCollision = false;
-        }
-        else
-        {
-            _leftBoxCollision = true;
-        }
-    }
-    public void SetRightBoxCollision(bool boolean)
-    {
-        if (boolean)
-        {
-            _nbRightCollision++;
-        }
-        else
-        {
-            _nbRightCollision--;
-        }
-
-        if (_nbRightCollision == 0)
-        {
-            _rightBoxCollision = false;
-        }
-        else
-        {
-            _rightBoxCollision = true;
-        }
-    }
-
-    public new void GetHit(GameObject emitter, float damage)
-    {
-        _health -= damage;
-
-        //If we don't have health anymore
-        if (_health <= 0f)
-        {
-            GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
-            CameraFollow cameraFollow = camera.GetComponent<CameraFollow>();
-            cameraFollow.PlayerDied(emitter);
-            Destroy(gameObject);
-        }
-    }
+  }
 }
