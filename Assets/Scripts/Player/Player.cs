@@ -30,6 +30,8 @@ public class Player : Entity
   public void AllowJump()
   {
     _animator.SetTrigger("land");
+    _animator.SetBool("isFalling", false);
+
     _canJump = true;
     _canWallJump = true;
   }
@@ -137,6 +139,22 @@ public class Player : Entity
       {
         _animator.SetBool("isRunning", false);
       }
+    }
+    else
+    {
+      _animator.SetBool("isRunning", false);
+    }
+
+    if (Mathf.Abs(_rb2d.velocity.y) > 0)
+    {
+      if (!_isGrabbingWall)
+      {
+        _animator.SetBool("isFalling", true);
+      }
+    }
+    else
+    {
+      _animator.SetBool("isFalling", false);
     }
   }
 
