@@ -79,7 +79,7 @@ public class Player : Entity
       {
         if (!_inputsStuck)
         {
-          _rb2d.gravityScale = .5f * _baseGravityScale;
+          _rb2d.gravityScale = .35f * _baseGravityScale;
         }
       }
       else
@@ -90,16 +90,16 @@ public class Player : Entity
           _canWallJump = false;
 
           ChangeVerticalSpeed(0f);
-          _rb2d.AddForce(Vector2.up * _rb2d.mass * 700);
+          _rb2d.AddForce(Vector2.up * _rb2d.mass * 1000);
 
           if (_collidingSide[0])
           {
-            _rb2d.AddForce(Vector2.left * _rb2d.mass * 400);
+            _rb2d.AddForce(Vector2.left * _rb2d.mass * 550);
             _spriteRenderer.flipX = true;
           }
           else if (_collidingSide[1])
           {
-            _rb2d.AddForce(Vector2.right * _rb2d.mass * 400);
+            _rb2d.AddForce(Vector2.right * _rb2d.mass * 550);
             _spriteRenderer.flipX = false;
           }
         }
@@ -109,7 +109,7 @@ public class Player : Entity
       {
         _animator.SetTrigger("jump");
         _canJump = false;
-        _rb2d.AddForce(Vector2.up * _rb2d.mass * 500);
+        _rb2d.AddForce(Vector2.up * _rb2d.mass * 850);
       }
     }
 
