@@ -70,6 +70,14 @@ public class CameraFollow : MonoBehaviour
     public void PlayerDied(GameObject killer)
     {
         offset = new Vector3(0, 0, -50);
-        _objectToFollow = killer;
+
+        if (killer != null)
+        {
+            _objectToFollow = killer;
+        }
+        else
+        {
+            _objectToFollow = gameObject;
+        }
     }
 }

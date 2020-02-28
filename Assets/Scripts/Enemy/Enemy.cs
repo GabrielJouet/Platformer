@@ -43,11 +43,11 @@ public class Enemy : Entity
             //If the player exists (not dead)
             if (buffer != null)
             {
-				int layerMasks = LayerMask.GetMask("Wall");
+				int layerMasks = LayerMask.GetMask("Player");
 
 				//If the distance with the player is less than field of sight
 				if (Mathf.Sqrt((buffer.transform.position - transform.position).sqrMagnitude) < _fieldOfSight
-					&& (Physics2D.Linecast(_eyePosition.position, buffer.transform.position, layerMasks).collider == buffer.GetComponent<CircleCollider2D>()))
+					&& (Physics2D.Linecast(_eyePosition.position, buffer.transform.position, layerMasks).collider == buffer.GetComponent<BoxCollider2D>()))
                 {
 					//The enemy chases it down
 					_chasingPlayer = buffer;
